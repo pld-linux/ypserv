@@ -8,7 +8,9 @@ Group:		System Environment/Daemons
 Source0:	ftp://ftp.us.kernel.org/pub/linux/utils/NIS/%{name}-%{version}.tar.gz
 Source1:	ypserv-ypserv.init
 Source2:	ypserv-yppasswdd.init
-Requires:	portmap tcp_wrappers
+Requires:	portmap
+Requires:	tcp_wrappers
+Requires:	rc-scripts
 Prereq:		/sbin/chkconfig
 Buildroot:	/tmp/%{name}-%{version}-root
 Obsoletes:	yppasswd
