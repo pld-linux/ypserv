@@ -2,7 +2,7 @@
 #
 # yppasswdd	YP password changing server
 #
-# chkconfig:	345 66 34
+# chkconfig:	345 43 62
 #
 # description:  yppasswdd is the RPC server that lets users  change  their \
 #		passwords  in  the presence of NIS (a.k.a. YP). It must be \
