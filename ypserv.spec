@@ -1,17 +1,18 @@
 Summary:	The NIS (Network Information Service) server.
 Url:		http://www-vt.uni-paderborn.de/~kukuk/linux/nis.html
 Name:		ypserv
-Version:	1.3.11
-Release:	2
+Version:	1.3.11a
+Release:	1
 Copyright:	GNU
 Group:		System Environment/Daemons
-Source0:	ftp://ftp.us.kernel.org/pub/linux/utils/NIS/%{name}-%{version}.tar.gz
+Source0:	ftp://ftp.us.kernel.org/pub/linux/utils/NIS/%{name}-1.3.11.tar.gz
 Source1:	ypserv-ypserv.init
 Source2:	ypserv-yppasswdd.init
 Patch0:		ypserv-ypMakefile.patch
 Patch1:		ypserv-conf.patch
 Patch2:		ypserv-remember.patch
 Patch3:		ypserv-libwrap.patch
+Patch4:		ypserv-1.3.11a.diff
 Requires:	portmap
 Requires:	tcp_wrappers
 Requires:	rc-scripts
@@ -36,11 +37,12 @@ need to install the yp-tools and ypbind packages onto any NIS client
 machines.
 
 %prep
-%setup -q
+%setup -q -n %{name}-1.3.11
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p0
 
 %build
 cp etc/README etc/README.etc
@@ -62,7 +64,8 @@ make install \
 	YPMAPDIR=/var/yp \
 	MAN1DIR=%{_mandir}/man1 \
 	MAN5DIR=%{_mandir}/man5 \
-	MAN8DIR=%{_mandir}/man8
+	MAN8DIR=%{_mandir}/man8 \
+	INSTALL="/usr/bin/install -c"
 
 install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
 install etc/ypserv.conf $RPM_BUILD_ROOT/etc
