@@ -12,6 +12,7 @@ Group:		Networking/Daemons
 Source0:	ftp://ftp.us.kernel.org/pub/linux/utils/net/NIS/%{name}-%{version}.tar.bz2
 Source1:	%{name}-%{name}.init
 Source2:	%{name}-yppasswdd.init
+Source3:	%{name}-yppaswd.sysconfig
 Patch0:		%{name}-ypMakefile.patch
 Patch1:		%{name}-conf.patch
 Patch2:		%{name}-remember.patch
@@ -135,6 +136,8 @@ install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
 install etc/ypserv.conf $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ypserv
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/yppasswdd
+install -d $RPM_BUILD_ROOT/etc/sysconfig/
+install ${SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/yppasswdd
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -175,6 +178,7 @@ fi
 %defattr(644,root,root,755)
 %doc README README.secure INSTALL ChangeLog TODO
 %doc etc/ypserv.conf etc/securenets etc/README.etc
+%config %{_sysconfdir}/sysconfig/yppasswdd
 %config %{_sysconfdir}/ypserv.conf
 %config %{_sysconfdir}/netgroup
 %config /var/yp/*
