@@ -21,14 +21,14 @@ Patch1:		%{name}-syslog.patch
 Patch2:		%{name}-path.patch
 Patch3:		%{name}-nfsnobody.patch
 URL:		http://www.linux-nis.org/
-BuildRequires:	automake >= 1.7
 BuildRequires:	autoconf
+BuildRequires:	automake >= 1.7
 BuildRequires:	gdbm-devel
 BuildRequires:	libwrap-devel
-Requires:	glibc >= 2.2
-Requires:	portmap
 Prereq:		rc-scripts
 Prereq:		/sbin/chkconfig
+Requires:	glibc >= 2.2
+Requires:	portmap
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	yppasswd
 Conflicts:	glibc <= 2.1.3
