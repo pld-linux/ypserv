@@ -1,19 +1,20 @@
-Summary:	The NIS (Network Information Service) server.
-Url:		http://www-vt.uni-paderborn.de/~kukuk/linux/nis.html
+Summary:	The NIS (Network Information Service) server
 Name:		ypserv
 Version:	1.3.11a
-Release:	1
-Copyright:	GNU
+Release:	2
+License:	GPL
 Group:		Networking/Daemons
+Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
 Source0:	ftp://ftp.us.kernel.org/pub/linux/utils/NIS/%{name}-1.3.11.tar.gz
-Source1:	ypserv-ypserv.init
-Source2:	ypserv-yppasswdd.init
-Patch0:		ypserv-ypMakefile.patch
-Patch1:		ypserv-conf.patch
-Patch2:		ypserv-remember.patch
-Patch3:		ypserv-libwrap.patch
-Patch4:		ypserv-1.3.11a.diff
+Source1:	%{name}-ypserv.init
+Source2:	%{name}-yppasswdd.init
+Patch0:		%{name}-ypMakefile.patch
+Patch1:		%{name}-conf.patch
+Patch2:		%{name}-remember.patch
+Patch3:		%{name}-libwrap.patch
+Patch4:		%{name}-1.3.11a.diff
+URL:		http://www-vt.uni-paderborn.de/~kukuk/linux/nis.html
 BuildRequires:	gdbm-devel
 BuildRequires:	libwrap-devel
 Requires:	portmap
@@ -61,6 +62,8 @@ rm -f config.cache
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
+
 %{__make} install \
 	ROOT=$RPM_BUILD_ROOT \
 	YPMAPDIR=/var/yp \
@@ -69,21 +72,29 @@ rm -rf $RPM_BUILD_ROOT
 	MAN8DIR=%{_mandir}/man8 \
 	INSTALL="/usr/bin/install -c"
 
-install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
 install etc/ypserv.conf $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ypserv
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/yppasswdd
 
 gzip -9nf {README,README.secure,INSTALL,ChangeLog,TODO} \
-	{etc/ypserv.conf,etc/securenets,etc/README.etc} \
-	$RPM_BUILD_ROOT/%{_mandir}/man{5,8}/*
+	{etc/ypserv.conf,etc/securenets,etc/README.etc}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add ypserv
+if [ -f /var/lock/subsys/ypserv ]; then
+	/etc/rc.d/init.d/ypserv restart >&2
+else
+	echo "Run '/etc/rc.d/init.d/ypserv start' to start YP server." >&2
+fi
 /sbin/chkconfig --add yppasswdd
+if [ -f /var/lock/subsys/yppasswdd ]; then
+	/etc/rc.d/init.d/yppasswdd restart >&2
+else
+	echo "Run '/etc/rc.d/init.d/yppasswdd start' to start YP password changing server." >&2
+fi
 
 %triggerpostun -- ypserv <= ypserv-1.3.0-2
 /sbin/chkconfig --add ypserv
@@ -91,9 +102,15 @@ rm -rf $RPM_BUILD_ROOT
 %trigerpostun -- yppasswd
 /sbin/chkconfig --add yppasswdd
 
-%postun
-if [ $1 = 0 ]; then
+%preun
+if [ "$1" = "0" ]; then
+	if [ -f /var/lock/subsys/ypserv ]; then
+		/etc/rc.d/init.d/ypserv stop >&2
+	fi
 	/sbin/chkconfig --del ypserv
+	if [ -f /var/lock/subsys/yppasswdd ]; then
+		/etc/rc.d/init.d/yppasswdd stop >&2
+	fi
 	/sbin/chkconfig --del yppasswdd
 fi
  
