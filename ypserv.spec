@@ -5,8 +5,6 @@ Version:	1.3.12
 Release:	3
 License:	GPL
 Group:		Networking/Daemons
-Group(de):	Netzwerkwesen/Server
-Group(pl):	Sieciowe/Serwery
 Source0:	ftp://ftp.us.kernel.org/pub/linux/utils/net/NIS/%{name}-%{version}.tar.bz2
 Source1:	%{name}-ypserv.init
 Source2:	%{name}-yppasswdd.init
