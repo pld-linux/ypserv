@@ -7,7 +7,7 @@ Summary(ru):	笈易乓 NIS (Network Information Service)
 Summary(uk):	笈易乓 NIS (Network Information Service)
 Summary(zh_CN):	NIS(网络信息服务)服务器.
 Name:		ypserv
-Version:	2.5
+Version:	2.6
 Release:	1
 License:	GPL
 Group:		Networking/Daemons
@@ -145,10 +145,10 @@ else
 	echo "Run '/etc/rc.d/init.d/yppasswdd start' to start YP password changing server." >&2
 fi
 /sbin/chkconfig --add ypxfrd
-if [ -f /var/lock/subsys/xfrd ]; then
-	/etc/rc.d/init.d/xfrd restart >&2
+if [ -f /var/lock/subsys/ypxfrd ]; then
+	/etc/rc.d/init.d/ypxfrd restart >&2
 else
-	echo "Run '/etc/rc.d/init.d/xfrd start' to start YP map server." >&2
+	echo "Run '/etc/rc.d/init.d/ypxfrd start' to start YP map server." >&2
 fi
 
 %triggerpostun -- ypserv <= ypserv-1.3.0-2
