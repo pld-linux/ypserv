@@ -1,14 +1,6 @@
-diff -urN ypserv-1.3.10.orig/ypMakefile.in ypserv-1.3.10/ypMakefile.in
---- ypserv-1.3.10.orig/ypMakefile.in	Fri Dec 10 14:46:48 1999
-+++ ypserv-1.3.10/ypMakefile.in	Wed Mar  8 15:40:25 2000
-@@ -26,16 +26,16 @@
- # entries) in the NIS password database, for security. MINUID is the
- # lowest uid that will be included in the password maps.
- # MINGID is the lowest gid that will be included in the group maps.
--MINUID=100
--MINGID=100
-+MINUID=1000
-+MINGID=1000
+--- ypserv-2.5/scripts/ypMakefile.in~	Thu Sep 12 22:38:41 2002
++++ ypserv-2.5/scripts/ypMakefile.in	Thu Sep 12 23:10:13 2002
+@@ -37,11 +37,11 @@
  
  # Should we merge the passwd file with the shadow file ?
  # MERGE_PASSWD=true|false
@@ -22,7 +14,7 @@ diff -urN ypserv-1.3.10.orig/ypMakefile.in ypserv-1.3.10/ypMakefile.in
  
  # These are commands which this Makefile needs to properly rebuild the
  # NIS databases. Don't change these unless you have a good reason.
-@@ -86,6 +86,7 @@
+@@ -92,6 +92,7 @@
  TIMEZONE    = $(YPSRCDIR)/timezone
  LOCALE      = $(YPSRCDIR)/locale
  NETMASKS    = $(YPSRCDIR)/netmasks
@@ -30,44 +22,43 @@ diff -urN ypserv-1.3.10.orig/ypMakefile.in ypserv-1.3.10/ypMakefile.in
  
  YPSERVERS = $(YPDIR)/ypservers	# List of all NIS servers for a domain
  
-@@ -99,7 +100,7 @@
+@@ -105,7 +106,7 @@
  # them out from this list.
  
  all:  passwd group hosts rpc services netid protocols netgrp mail \
 -	shadow publickey # networks ethers bootparams printcap \
-+	shadow opasswd # publickey networks ethers bootparams printcap \
++	shadow opasswd #publickey # networks ethers bootparams printcap \
  	# amd.home auto.master auto.home auto.local passwd.adjunct \
  	# timezone locale netmasks
  
-@@ -136,6 +137,7 @@
+@@ -142,6 +143,7 @@
  timezone:      timezone.byname
  locale:                locale.byname
  netmasks:      netmasks.byaddr
-+opasswd:	opasswd.byname opasswd.byuid
++opasswd:       opasswd.byname opasswd.byuid
  
  ypservers: $(YPSERVERS) $(YPDIR)/Makefile
  	@echo "Updating $@..."
-@@ -434,6 +436,23 @@
- 		   else \
- 		      printf("%s ",$$i);\
+@@ -444,6 +446,22 @@
  		}' | $(DBLOAD) -i $(AMD_HOME) -o $(YPMAPDIR)/$@ - $@
-+	-@$(NOPUSH) || $(YPPUSH) -d $(DOMAIN) $@
-+
+ 	-@$(NOPUSH) || $(YPPUSH) -d $(DOMAIN) $@
+ 
 +opasswd.byname: $(OLDPASSWD) $(YPDIR)/Makefile
 +	@echo "Updating $@..."
 +	@$(UMASK); \
 +	$(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$2 >= $(MINUID) ) \
-+	   print $$1"\t"$$0 }' $(OLDPASSWD) | $(DBLOAD) -i $(OLDPASSWD) \
++		print $$1"\t"$$0 }' $(OLDPASSWD) | $(DBLOAD) -i $(OLDPASSWD) \
 +		-o $(YPMAPDIR)/$@ - $@
 +	-@$(NOPUSH) || $(YPPUSH) -d $(DOMAIN) $@
-+
 +
 +opasswd.byuid: $(OLDPASSWD) $(YPDIR)/Makefile
 +	@echo "Updating $@..."
 +	@$(UMASK); \
 +	$(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$2 >= $(MINUID) ) \
-+	   print $$2"\t"$$0 }' $(OLDPASSWD) | $(DBLOAD) -i $(OLDPASSWD) \
-+		 -o $(YPMAPDIR)/$@ - $@
- 	-@$(NOPUSH) || $(YPPUSH) -d $(DOMAIN) $@
- 
++	print $$2"\t"$$0 }' $(OLDPASSWD) | $(DBLOAD) -i $(OLDPASSWD) \
++	-o $(YPMAPDIR)/$@ - $@
++	-@$(NOPUSH) || $(YPPUSH) -d $(DOMAIN) $@
++
  timezone.byname: $(TIMEZONE) $(YPDIR)/Makefile
+ 	@echo "Updating $@..."
+ 	@$(AWK) '{ if ($$1 != "" && $$1 !~ "#") \
