@@ -1,0 +1,48 @@
+#!/bin/sh
+#
+# ypserv:       Starts the yp-server
+#
+# Version:      @(#) /etc/rc.d/init.d/ypserv.init 1.0
+#
+# Author:       Joerg Mertin <smurphy@stargate.bln.sub.org>
+#
+# chkconfig: - 12 88
+# description: ypserv is an implementation of the standard NIS/YP networking \
+#              protocol.  It allows network-wide distribution of hostname, \
+#              username, and other information databases. This is the NIS \
+#              server, and is not needed on NIS clients.
+# processname: ypserv
+# config: /etc/ypserv.conf
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# getting the YP-Domainname
+. /etc/sysconfig/network
+
+# See how we were called.
+case "$1" in
+  start)
+	show "Starting YP server services"
+	daemon ypserv
+	touch /var/lock/subsys/ypserv
+	;;
+  stop)
+	show "Stopping YP server services"
+	killproc ypserv
+	rm -f /var/lock/subsys/ypserv
+	;;
+  status)
+	status ypserv
+	;;
+  restart)
+	$0 stop
+	$0 start
+	;;
+  *)
+	echo "Usage: $0 {start|stop|status|restart}"
+	exit 1
+esac
+
+exit 0
+
