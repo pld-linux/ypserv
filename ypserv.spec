@@ -12,6 +12,7 @@ Release:	1
 License:	GPL
 Group:		Networking/Daemons
 Source0:	ftp://ftp.kernel.org/pub/linux/utils/net/NIS/%{name}-%{version}.tar.bz2
+# Source0-md5:	696e8bec5b9597bafd5740054ad4ee48
 Source1:	%{name}-%{name}.init
 Source2:	%{name}-yppasswdd.init
 Source3:	%{name}-ypxfrd.init
