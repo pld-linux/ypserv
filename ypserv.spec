@@ -139,7 +139,7 @@ install etc/ypserv.conf $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ypserv
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/yppasswdd
 install -d $RPM_BUILD_ROOT/etc/sysconfig/
-install ${SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/yppasswdd
+install %{SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/yppasswdd
 
 %clean
 rm -rf $RPM_BUILD_ROOT
