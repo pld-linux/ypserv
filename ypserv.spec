@@ -19,7 +19,7 @@ URL:		http://www-vt.uni-paderborn.de/~kukuk/linux/nis.html
 BuildRequires:	gdbm-devel
 BuildRequires:	libwrap-devel
 Requires:	portmap
-Requires:	rc-scripts
+Prereq:		rc-scripts
 Prereq:		/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	yppasswd
