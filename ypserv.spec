@@ -14,7 +14,6 @@ Patch1:		ypserv-conf.patch
 Patch2:		ypserv-remember.patch
 Patch3:		ypserv-libwrap.patch
 Patch4:		ypserv-1.3.11a.diff
-Patch5:		ypserv-FHS.patch
 Requires:	portmap
 Requires:	tcp_wrappers
 Requires:	rc-scripts
@@ -48,7 +47,6 @@ machines.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p0
-%patch5 -p1
 
 %build
 cp etc/README etc/README.etc
@@ -66,7 +64,7 @@ rm -f config.cache
 rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	ROOT=$RPM_BUILD_ROOT \
-	YPMAPDIR=/var/lib/yp \
+	YPMAPDIR=/var/yp \
 	MAN1DIR=%{_mandir}/man1 \
 	MAN5DIR=%{_mandir}/man5 \
 	MAN8DIR=%{_mandir}/man8 \
@@ -106,9 +104,9 @@ fi
 %doc {etc/ypserv.conf,etc/securenets,etc/README.etc}.gz
 %config %{_sysconfdir}/ypserv.conf
 %config %{_sysconfdir}/netgroup
-%config /var/lib/yp/*
+%config /var/yp/*
 %attr(754,root,root) %config /etc/rc.d/init.d/*
-%dir /var/lib/yp
+%dir /var/yp
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_libdir}/yp/*
 %{_mandir}/man5/*
