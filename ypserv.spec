@@ -1,4 +1,5 @@
 Summary:	The NIS (Network Information Service) server
+Summary(pl):	Serwer NIS (Network Information Service)
 Name:		ypserv
 Version:	1.3.12
 Release:	3
@@ -42,6 +43,17 @@ your network. NIS clients do not need to be running the server.
 Install ypserv if you need an NIS server for your network. You'll also
 need to install the yp-tools and ypbind packages onto any NIS client
 machines.
+
+%description -l pl
+NIS (Network Information Service) to system dostarczaj±cy informacje
+sieciowe (nazwy u¿ytkowników, has³a, katalogi domowe, informacje o
+grupach) wszystkim maszynom w sieci. NIS mo¿e pozwalaæ u¿ytkownikom
+logowaæ siê na dowolnej maszynie w sieci pod warunkiem, ¿e maszyna ma
+dzia³aj±ce programy klienckie NIS i has³o u¿ytkownika jest zapisane w
+bazie hase³ NIS. NIS by³ wcze¶niej znany jako YP (Sun Yellow Pages).
+
+Ten pakiet zawiera serwer NIS, który musi dzia³aæ w sieci. Klienci nie
+musz± dzia³aæ na maszynie serwera.
 
 %prep
 %setup -q
