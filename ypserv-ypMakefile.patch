@@ -1,0 +1,70 @@
+--- ypserv-1.3.6.94.orig/ypMakefile.in	Fri Feb 19 16:07:35 1999
++++ ypserv-1.3.6.94/ypMakefile.in	Tue Sep 14 00:27:56 1999
+@@ -28,16 +28,16 @@
+ # entries) in the NIS password database, for security. MINUID is the
+ # lowest uid that will be included in the password maps.
+ # MINGID is the lowest gid that will be included in the group maps.
+-MINUID=100
+-MINGID=100
++MINUID=1000
++MINGID=1000
+ 
+ # Should we merge the passwd file with the shadow file ?
+ # MERGE_PASSWD=true|false
+-MERGE_PASSWD=true
++MERGE_PASSWD=false
+ 
+ # Should we merge the group file with the gshadow file ?
+ # MERGE_GROUP=true|false
+-MERGE_GROUP=true
++MERGE_GROUP=false
+ 
+ # These are commands which this Makefile needs to properly rebuild the
+ # NIS databases. Don't change these unless you have a good reason.
+@@ -83,6 +83,7 @@
+ AMD_HOME    = $(YPSRCDIR)/amd.home
+ AUTO_MASTER = $(YPSRCDIR)/auto.master
+ AUTO_HOME   = $(YPSRCDIR)/auto.home
++OLDPASSWD   = $(YPSRCDIR)/security/opasswd
+ 
+ YPSERVERS = $(YPDIR)/ypservers	# List of all NIS servers for a domain
+ 
+@@ -96,7 +97,7 @@
+ # them out from this list.
+ 
+ all:  passwd group hosts rpc services netid protocols netgrp mail \
+-	shadow publickey # networks ethers bootparams amd.home \
++	shadow opasswd # publickey networks ethers bootparams amd.home \
+ 	auto.master auto.home passwd.adjunct
+ 
+ 
+@@ -128,6 +129,7 @@
+ netgrp:	   	netgroup netgroup.byhost netgroup.byuser
+ publickey: 	publickey.byname
+ mail:	   	mail.aliases
++opasswd:	opasswd.byname opasswd.byuid
+ 
+ ypservers: $(YPSERVERS) $(YPDIR)/Makefile
+ 	@echo "Updating $@..."
+@@ -389,4 +391,21 @@
+ 		   else \
+ 		      printf("%s ",$$i);\
+ 		}' | $(DBLOAD) -i $(AMD_HOME) -o $(YPMAPDIR)/$@ - $@
++	-@$(NOPUSH) || $(YPPUSH) -d $(DOMAIN) $@
++
++opasswd.byname: $(OLDPASSWD) $(YPDIR)/Makefile
++	@echo "Updating $@..."
++	@$(UMASK); \
++	$(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$2 >= $(MINUID) ) \
++	   print $$1"\t"$$0 }' $(OLDPASSWD) | $(DBLOAD) -i $(OLDPASSWD) \
++		-o $(YPMAPDIR)/$@ - $@
++	-@$(NOPUSH) || $(YPPUSH) -d $(DOMAIN) $@
++
++
++opasswd.byuid: $(OLDPASSWD) $(YPDIR)/Makefile
++	@echo "Updating $@..."
++	@$(UMASK); \
++	$(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$2 >= $(MINUID) ) \
++	   print $$2"\t"$$0 }' $(OLDPASSWD) | $(DBLOAD) -i $(OLDPASSWD) \
++		 -o $(YPMAPDIR)/$@ - $@
+ 	-@$(NOPUSH) || $(YPPUSH) -d $(DOMAIN) $@
