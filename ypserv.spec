@@ -18,11 +18,13 @@ Patch5:		%{name}-security.patch
 URL:		http://www-vt.uni-paderborn.de/~kukuk/linux/nis.html
 BuildRequires:	gdbm-devel
 BuildRequires:	libwrap-devel
+Requires:	glibc >= 2.2
 Requires:	portmap
 Prereq:		rc-scripts
 Prereq:		/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	yppasswd
+Conflicts:	glibc <= 2.1.3
 
 %define		_libexecdir	/usr/lib/yp
 
