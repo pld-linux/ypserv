@@ -134,9 +134,6 @@ install etc/ypserv.conf $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ypserv
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/yppasswdd
 
-#gzip -9nf {README,README.secure,INSTALL,ChangeLog,TODO} \
-#	{etc/ypserv.conf,etc/securenets,etc/README.etc}
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
