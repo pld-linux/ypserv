@@ -53,13 +53,13 @@ CFLAGS=$RPM_OPT_FLAGS \
 	--enable-fqdn \
 	--enable-yppasswd 
 
-make MAN1DIR=%{_mandir}/man1 \
+%{__make} MAN1DIR=%{_mandir}/man1 \
 	MAN5DIR=%{_mandir}/man5 \
 	MAN8DIR=%{_mandir}/man8
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make install \
+%{__make} install \
 	ROOT=$RPM_BUILD_ROOT \
 	YPMAPDIR=/var/yp \
 	MAN1DIR=%{_mandir}/man1 \
