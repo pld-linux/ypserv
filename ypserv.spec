@@ -1,5 +1,9 @@
 Summary:	The NIS (Network Information Service) server
+Summary(es):	Servidor NIS/YP
 Summary(pl):	Serwer NIS (Network Information Service)
+Summary(pt_BR):	Servidor NIS/YP
+Summary(ru):	Сервер NIS (Network Information Service)
+Summary(uk):	Сервер NIS (Network Information Service)
 Name:		ypserv
 Version:	1.3.12
 Release:	4
@@ -42,6 +46,11 @@ Install ypserv if you need an NIS server for your network. You'll also
 need to install the yp-tools and ypbind packages onto any NIS client
 machines.
 
+%description -l es
+ypserv es una implementaciСn del protocolo padrСn de red NIS/YP.
+Permite el uso distribuido de informaciСn como hostname, username,
+etc.
+
 %description -l pl
 NIS (Network Information Service) to system dostarczaj╠cy informacje
 sieciowe (nazwy u©ytkownikСw, hasЁa, katalogi domowe, informacje o
@@ -52,6 +61,40 @@ bazie haseЁ NIS. NIS byЁ wcze╤niej znany jako YP (Sun Yellow Pages).
 
 Ten pakiet zawiera serwer NIS, ktСry musi dziaЁaФ w sieci. Klienci nie
 musz╠ dziaЁaФ na maszynie serwera.
+
+%description -l pt_BR
+ypserv И uma implementaГЦo do protocolo padrЦo de rede NIS/YP. Ele
+permite o uso distribuМdo de informaГУes como hostname, username, etc.
+
+%description -l ru
+Network Information Service (NIS) - это система, которая предоставляет
+сетевую информацию (логины, пароли, домашние каталоги, группы и т.п.)
+всем машинам в сети. NIS может разрешить пользователям вход на любой
+машине если на этой машине запущены клиентские программы NIS и пароль
+пользователя записан в базу данных паролей NIS. NIS ранее был известен
+как Sun Yellow Pages (YP).
+
+Этот пакет содержит сервер NIS, который должен быть запущен в вашей
+сети. Клиенты NIS не обязаны запускать сервер NIS.
+
+Установите ypserv если вам нужен сервер NIS для вашей сети. Вам также
+надо будет установить пакеты yp-tools и ypbind на каждой машине,
+которая должна быть клиентом NIS.
+
+%description -l uk
+Network Information Service (NIS) - це система, яка нада╓ мережеву
+╕нформац╕ю (лог╕ни, парол╕, домашн╕ каталоги, групи ╕ т.╕.) вс╕м
+машинам у мереж╕. NIS може дозволити користувачам вх╕д на будь-як╕й
+машин╕ якщо на ц╕й машин╕ запущен╕ кл╕╓нтськ╕ програми NIS та пароль
+користувача записаний у базу даних парол╕в NIS. NIS ран╕ше був в╕домий
+як Sun Yellow Pages (YP).
+
+Цей пакет м╕стить сервер NIS, який повинен бути запущений у ваш╕й
+мереж╕. Кл╕╓нти NIS не повинн╕ запускати сервер NIS.
+
+Встанов╕ть ypserv якщо вам потр╕бен сервер NIS для вашо╖ мереж╕. Вам
+також треба буде встановити пакети yp-tools та ypbind на кожн╕й
+машин╕, яка повинна бути кл╕╓нтом NIS.
 
 %prep
 %setup -q
