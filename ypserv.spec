@@ -32,7 +32,7 @@ Requires:	portmap
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	yppasswd
 
-%define		_libexecdir	/usr/lib/yp
+%define		_libexecdir	%{_libdir}/yp
 
 %description
 The Network Information Service (NIS) is a system which provides
