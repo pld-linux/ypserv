@@ -1,7 +1,7 @@
 Summary:	The NIS (Network Information Service) server
 Name:		ypserv
 Version:	1.3.12
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
