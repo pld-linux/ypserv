@@ -10,7 +10,7 @@ Source1:	ypserv-ypserv.init
 Source2:	ypserv-yppasswdd.init
 Requires:	portmap tcp_wrappers
 Prereq:		/sbin/chkconfig
-Buildroot:	/tmp/%{name}-%{version}-root/
+Buildroot:	/tmp/%{name}-%{version}-root
 Obsoletes:	yppasswd
 
 %description
