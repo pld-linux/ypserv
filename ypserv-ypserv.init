@@ -28,9 +28,20 @@ if is_no "${NETWORKING}"; then
 	exit 1
 fi
 
+check_nisdomain()
+{
+	if [ -n "$NISDOMAIN" ]; then
+		return 0
+	else
+		echo "Setup /etc/sysconfig/network::NISDOMAIN before use ypserv."
+		exit 1
+	fi
+}
+
 # See how we were called.
 case "$1" in
   start)
+	check_nisdomain
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/ypserv ]; then
 		msg_starting "NIS server"
@@ -42,11 +53,16 @@ case "$1" in
 	touch /var/lock/subsys/ypserv
 	;;
   stop)
-	msg_stopping "NIS server"
+	check_nisdomain
+	if [ ! -f /var/lock/subsys/ypserv ]; then
+		msg_Not_Running "NIS server"
+		exit 1
+	fi
 	killproc ypserv
 	rm -f /var/lock/subsys/ypserv
 	;;
   status)
+	check_nisdomain
 	status ypserv
 	;;
   restart|reload)

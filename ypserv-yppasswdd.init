@@ -27,29 +27,40 @@ if is_no "${NETWORKING}"; then
 fi
 
 if [ "$YPFILEDIR" ]; then
- YPSTRING=" -D $YPFILEDIR"
+	YPSTRING=" -D $YPFILEDIR"
 fi
 
 if [ "$YPEDITPROG" ]; then
- YPSTRING="$YPSTRING -E $YPEDITPROG"
+	YPSTRING="$YPSTRING -E $YPEDITPROG"
 fi
 
 if [ "$YPPWDFILE" ]; then
- YPSTRING="$YPSTRING -p $YPPWDFILE"
+	YPSTRING="$YPSTRING -p $YPPWDFILE"
 fi
 
 if [ "$YPSHADOWFILE" ]; then
- YPSTRING="$YPSTRING -s $YPSHADOWFILE"
+	YPSTRING="$YPSTRING -s $YPSHADOWFILE"
 fi
 
 if [ "$YPMODPROG" ]; then
- YPSTRING="$YPSTRING -x $YPMODPROG"
+	YPSTRING="$YPSTRING -x $YPMODPROG"
 fi
+
+check_nisdomain()
+{
+	if [ -n "$NISDOMAIN" ]; then
+		return 0
+	else
+		echo "Setup /etc/sysconfig/network::NISDOMAIN before use yppasswdd."
+		exit 1
+	fi
+}
 
 
 # See how we were called.
 case "$1" in
 	start)
+	check_nisdomain
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/yppasswdd ]; then
 		msg_starting "NIS passwd"
@@ -65,6 +76,7 @@ case "$1" in
 	touch /var/lock/subsys/yppasswdd
 	;;
   stop)
+	check_nisdomain
 	if [ ! -f /var/lock/subsys/yppasswdd ]; then
 		msg_Not_Running rpc.yppasswdd
 		exit 1
@@ -74,16 +86,16 @@ case "$1" in
 	rm -f /var/lock/subsys/yppasswdd
 	;;
   status)
+	check_nisdomain
 	status rpc.yppasswdd
 	;;
-  restart)
+  restart|reload)
 	$0 stop
 	$0 start
 	;;
   *)
-	msg_Usage "$0 {start|stop|status|restart}"
+	msg_Usage "$0 {start|stop|status|restart|reload}"
 	exit 1
 esac
 
 exit 0
-
