@@ -21,7 +21,7 @@ Patch1:		%{name}-path.patch
 Patch2:		%{name}-nfsnobody.patch
 URL:		http://www.linux-nis.org/
 BuildRequires:	autoconf
-BuildRequires:	automake >= 1.7
+BuildRequires:	automake >= 1:1.7
 BuildRequires:	gdbm-devel
 BuildRequires:	libwrap-devel
 PreReq:		rc-scripts
