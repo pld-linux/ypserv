@@ -11,6 +11,7 @@ Source2:	ypserv-yppasswdd.init
 Patch0:		ypserv-ypMakefile.patch
 Patch1:		ypserv-conf.patch
 Patch2:		ypserv-remember.patch
+Patch3:		ypserv-libwrap.patch
 Requires:	portmap
 Requires:	tcp_wrappers
 Requires:	rc-scripts
@@ -39,6 +40,7 @@ machines.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 cp etc/README etc/README.etc
