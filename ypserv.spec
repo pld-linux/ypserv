@@ -14,6 +14,7 @@ Patch1:		%{name}-conf.patch
 Patch2:		%{name}-remember.patch
 Patch3:		%{name}-libwrap.patch
 Patch4:		%{name}-1.3.11a.diff
+Patch5:		%{name}-syslog.patch
 URL:		http://www-vt.uni-paderborn.de/~kukuk/linux/nis.html
 BuildRequires:	gdbm-devel
 BuildRequires:	libwrap-devel
@@ -47,6 +48,7 @@ machines.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p0
+%patch5 -p1
 
 %build
 cp etc/README etc/README.etc
