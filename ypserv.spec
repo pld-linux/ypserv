@@ -1,7 +1,7 @@
 Summary:	The NIS (Network Information Service) server
 Name:		ypserv
 Version:	1.3.12
-Release:	2
+Release:	3
 License:	GPL
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
@@ -54,7 +54,9 @@ machines.
 
 mv etc/README etc/README.etc
 %build
-%configure \
+#aclocal
+#autoconf
+%configure2_13 \
 	--enable-tcp-wrapper \
 	--enable-fqdn \
 	--enable-yppasswd 
