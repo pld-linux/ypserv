@@ -1,8 +1,8 @@
-diff -ur ypserv-1.3.6.94.orig/update.c ypserv-1.3.6.94/update.c
---- ypserv-1.3.6.94.orig/update.c	Sat May 29 22:08:44 1999
-+++ ypserv-1.3.6.94/update.c	Tue Sep 14 00:07:58 1999
-@@ -73,6 +73,9 @@
- #define _PATH_SHELLS		"/etc/shells"
+diff -urN ypserv-1.3.11.orig/update.c ypserv-1.3.11/update.c
+--- ypserv-1.3.11.orig/update.c	Sun Mar 19 14:58:28 2000
++++ ypserv-1.3.11/update.c	Tue May 30 18:28:57 2000
+@@ -64,6 +64,9 @@
+ #define _PATH_SHELLS            "/etc/shells"
  #endif
  
 +#define OPW_TMPFILE		"/etc/security/nopasswd"
@@ -11,19 +11,35 @@ diff -ur ypserv-1.3.6.94.orig/update.c ypserv-1.3.6.94/update.c
  /* How often to retry locking the passwd file... */
  #define MAX_RETRIES 5
  
-@@ -87,6 +90,8 @@
- 
+@@ -79,10 +82,13 @@
+ /* Will be set by the main function */
  char *external_update_program = NULL;
  
 +int remember_old_passwords = 0;
 +
- #ifndef svc_getcaller
- /* This is a cheat. */
- #define svc_getcaller(x) 	((struct sockaddr_in *) (x)->xp_rtaddr.buf)
-@@ -189,6 +194,84 @@
- }
- #endif
+ static int external_update_env (yppasswd *yppw);
+ static int external_update_pipe (yppasswd *yppw);
+ static int update_files (yppasswd *yppw, char *logbuf, int *shadow_changed,
+ 			 int *passwd_changed, int *chfn, int *chsh);
++static int save_old_password(const yppasswd *ypw, int howmany);
  
+ /* Argument validation. Avoid \n... (ouch).
+    We can't use isprint, because people may use 8bit chars which
+@@ -296,6 +302,8 @@
+ 	  return &res;
+ 	}
+ 
++      save_old_password(yppw,remember_old_passwords);
++
+       res = update_files (yppw, logbuf, &shadow_changed, &passwd_changed,
+ 			  &chfn, &chsh);
+ 
+@@ -667,6 +675,84 @@
+       _exit (1); /* fall-through */
+     }
+   return res;
++}
++
 +static int
 +save_old_password(const yppasswd *ypw, int howmany)
 +{
@@ -100,23 +116,12 @@ diff -ur ypserv-1.3.6.94.orig/update.c ypserv-1.3.6.94/update.c
 +		unlink(OPW_TMPFILE);
 +
 +	return err;
-+}
-+
- /*===============================================================*
-  * The /etc/passwd update handler
-  *===============================================================*/
-@@ -305,6 +388,8 @@
- 	  yp_msg ("password file locked");
- 	  goto error2;
- 	}
-+
-+      save_old_password(yppw,remember_old_passwords);
+ }
  
-       /* Open the passwd file for reading. We can't use getpwent and
- 	 friends here, because they go through the YP maps, too. */
-diff -ur ypserv-1.3.6.94.orig/yppasswd.h ypserv-1.3.6.94/yppasswd.h
---- ypserv-1.3.6.94.orig/yppasswd.h	Tue May 18 22:07:11 1999
-+++ ypserv-1.3.6.94/yppasswd.h	Mon Sep 13 23:11:54 1999
+ /*===============================================================*
+diff -urN ypserv-1.3.11.orig/yppasswd.h ypserv-1.3.11/yppasswd.h
+--- ypserv-1.3.11.orig/yppasswd.h	Tue May 18 22:11:04 1999
++++ ypserv-1.3.11/yppasswd.h	Tue May 30 18:22:00 2000
 @@ -70,6 +70,7 @@
  extern char 	*path_shadow_tmp;
  extern char 	*path_shadow_old;
@@ -125,10 +130,10 @@ diff -ur ypserv-1.3.6.94.orig/yppasswd.h ypserv-1.3.6.94/yppasswd.h
  
  /* This command is forked to rebuild the NIS maps after a successful
   * update. MAP_UPDATE0 is used as argv[0].
-diff -ur ypserv-1.3.6.94.orig/yppasswdd.c ypserv-1.3.6.94/yppasswdd.c
---- ypserv-1.3.6.94.orig/yppasswdd.c	Tue Jun  1 21:15:38 1999
-+++ ypserv-1.3.6.94/yppasswdd.c	Mon Sep 13 23:13:46 1999
-@@ -276,10 +276,11 @@
+diff -urN ypserv-1.3.11.orig/yppasswdd.c ypserv-1.3.11/yppasswdd.c
+--- ypserv-1.3.11.orig/yppasswdd.c	Tue May 30 18:20:56 2000
++++ ypserv-1.3.11/yppasswdd.c	Tue May 30 18:22:00 2000
+@@ -279,10 +279,11 @@
  	{"help", no_argument, NULL, 'h'},
  	{"execute", required_argument, NULL, 'x'},
  	{"debug", no_argument, NULL, '\254'},
@@ -141,7 +146,7 @@ diff -ur ypserv-1.3.6.94.orig/yppasswdd.c ypserv-1.3.6.94/yppasswdd.c
  		     &option_index);
        if (c == EOF)
  	break;
-@@ -347,6 +348,11 @@
+@@ -350,6 +351,11 @@
  	  exit (0);
  	case '\254': /* --debug */
  	  debug_flag = 1;
