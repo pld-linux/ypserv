@@ -6,7 +6,7 @@ Release:	3
 License:	GPL
 Group:		Networking/Daemons
 Source0:	ftp://ftp.us.kernel.org/pub/linux/utils/net/NIS/%{name}-%{version}.tar.bz2
-Source1:	%{name}-ypserv.init
+Source1:	%{name}-%{name}.init
 Source2:	%{name}-yppasswdd.init
 Patch0:		%{name}-ypMakefile.patch
 Patch1:		%{name}-conf.patch
@@ -69,7 +69,7 @@ mv etc/README etc/README.etc
 %configure2_13 \
 	--enable-tcp-wrapper \
 	--enable-fqdn \
-	--enable-yppasswd 
+	--enable-yppasswd
 
 %{__make} MAN1DIR=%{_mandir}/man1 \
 	MAN5DIR=%{_mandir}/man5 \
@@ -85,7 +85,7 @@ install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
 	MAN1DIR=%{_mandir}/man1 \
 	MAN5DIR=%{_mandir}/man5 \
 	MAN8DIR=%{_mandir}/man8 \
-	INSTALL="/usr/bin/install -c"
+	INSTALL="install -c"
 
 install etc/ypserv.conf $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ypserv
@@ -128,7 +128,7 @@ if [ "$1" = "0" ]; then
 	fi
 	/sbin/chkconfig --del yppasswdd
 fi
- 
+
 %files
 %defattr(644,root,root,755)
 %doc {README,README.secure,INSTALL,ChangeLog,TODO}.gz
