@@ -1,6 +1,7 @@
---- ypserv-1.3.6.94.orig/ypMakefile.in	Fri Feb 19 16:07:35 1999
-+++ ypserv-1.3.6.94/ypMakefile.in	Tue Sep 14 00:27:56 1999
-@@ -28,16 +28,16 @@
+diff -urN ypserv-1.3.8.orig/ypMakefile.in ypserv-1.3.8/ypMakefile.in
+--- ypserv-1.3.8.orig/ypMakefile.in	Wed Oct 13 18:47:33 1999
++++ ypserv-1.3.8/ypMakefile.in	Thu Oct 14 16:43:55 1999
+@@ -26,16 +26,16 @@
  # entries) in the NIS password database, for security. MINUID is the
  # lowest uid that will be included in the password maps.
  # MINGID is the lowest gid that will be included in the group maps.
@@ -21,7 +22,7 @@
  
  # These are commands which this Makefile needs to properly rebuild the
  # NIS databases. Don't change these unless you have a good reason.
-@@ -83,6 +83,7 @@
+@@ -82,6 +82,7 @@
  AMD_HOME    = $(YPSRCDIR)/amd.home
  AUTO_MASTER = $(YPSRCDIR)/auto.master
  AUTO_HOME   = $(YPSRCDIR)/auto.home
@@ -29,13 +30,13 @@
  
  YPSERVERS = $(YPDIR)/ypservers	# List of all NIS servers for a domain
  
-@@ -96,7 +97,7 @@
+@@ -95,7 +96,7 @@
  # them out from this list.
  
  all:  passwd group hosts rpc services netid protocols netgrp mail \
--	shadow publickey # networks ethers bootparams amd.home \
-+	shadow opasswd # publickey networks ethers bootparams amd.home \
- 	auto.master auto.home passwd.adjunct
+-	shadow publickey # networks ethers bootparams printcap \
++	shadow opasswd # publickey networks ethers bootparams printcap \
+ 	# amd.home auto.master auto.home passwd.adjunct
  
  
 @@ -128,6 +129,7 @@
@@ -46,7 +47,7 @@
  
  ypservers: $(YPSERVERS) $(YPDIR)/Makefile
  	@echo "Updating $@..."
-@@ -389,4 +391,21 @@
+@@ -396,4 +398,21 @@
  		   else \
  		      printf("%s ",$$i);\
  		}' | $(DBLOAD) -i $(AMD_HOME) -o $(YPMAPDIR)/$@ - $@
