@@ -14,11 +14,10 @@ Patch1:		ypserv-conf.patch
 Patch2:		ypserv-remember.patch
 Patch3:		ypserv-libwrap.patch
 Patch4:		ypserv-1.3.11a.diff
+BuildRequires:	gdbm-devel
+BuildRequires:	libwrap-devel
 Requires:	portmap
-Requires:	tcp_wrappers
 Requires:	rc-scripts
-Requires:	glibc >= 2.0
-Requires:	gdbm >= 1.8.0
 Prereq:		/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	yppasswd
