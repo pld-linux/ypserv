@@ -86,8 +86,18 @@ gzip -9nf {README,README.secure,INSTALL,ChangeLog,TODO} \
 rm -rf $RPM_BUILD_ROOT
 
 %post
-DESC="YP server"; %chkconfig_add
-NAME=yppasswdd; DESC="YP password changing server"; %chkconfig_add
+/sbin/chkconfig --add ypserv
+if [ -f /var/lock/subsys/ypserv ]; then
+	/etc/rc.d/init.d/ypserv restart >&2
+else
+	echo "Run '/etc/rc.d/init.d/ypserv start' to start YP server." >&2
+fi
+/sbin/chkconfig --add yppasswdd
+if [ -f /var/lock/subsys/yppasswdd ]; then
+	/etc/rc.d/init.d/yppasswdd restart >&2
+else
+	echo "Run '/etc/rc.d/init.d/yppasswdd start' to start YP password changing server." >&2
+fi
 
 %triggerpostun -- ypserv <= ypserv-1.3.0-2
 /sbin/chkconfig --add ypserv
@@ -96,8 +106,16 @@ NAME=yppasswdd; DESC="YP password changing server"; %chkconfig_add
 /sbin/chkconfig --add yppasswdd
 
 %preun
-%chkconfig_del
-NAME=yppasswdd; %chkconfig_del
+if [ "$1" = "0" ]; then
+	if [ -f /var/lock/subsys/ypserv ]; then
+		/etc/rc.d/init.d/ypserv stop >&2
+	fi
+	/sbin/chkconfig --del ypserv
+	if [ -f /var/lock/subsys/yppasswdd ]; then
+		/etc/rc.d/init.d/yppasswdd stop >&2
+	fi
+	/sbin/chkconfig --del yppasswdd
+fi
  
 %files
 %defattr(644,root,root,755)
