@@ -1,8 +1,8 @@
 Summary:	The NIS (Network Information Service) server.
 Url:		http://www-vt.uni-paderborn.de/~kukuk/linux/nis.html
 Name:		ypserv
-Version:	1.3.8
-Release:	1
+Version:	1.3.11
+Release:	2
 Copyright:	GNU
 Group:		System Environment/Daemons
 Source0:	ftp://ftp.us.kernel.org/pub/linux/utils/NIS/%{name}-%{version}.tar.gz
