@@ -26,13 +26,38 @@ if is_no "${NETWORKING}"; then
 	exit 1
 fi
 
+if [ "$YPFILEDIR" ]; then
+ YPSTRING=" -D $YPFILEDIR"
+fi
+
+if [ "$YPEDITPROG" ]; then
+ YPSTRING="$YPSTRING -E $YPEDITPROG"
+fi
+
+if [ "$YPPWDFILE" ]; then
+ YPSTRING="$YPSTRING -p $YPPWDFILE"
+fi
+
+if [ "$YPSHADOWFILE" ]; then
+ YPSTRING="$YPSTRING -s $YPSHADOWFILE"
+fi
+
+if [ "$YPMODPROG" ]; then
+ YPSTRING="$YPSTRING -x $YPMODPROG"
+fi
+
+
 # See how we were called.
 case "$1" in
-  start)
+	start)
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/yppasswdd ]; then
 		msg_starting "NIS passwd"
-		daemon rpc.yppasswdd
+		if [ "$YPSTRING" ]; then
+			daemon rpc.yppasswdd $YPSTRING
+		else
+			daemon rpc.yppasswdd
+		fi 
 	else
 		msg_Already_Running rpc.yppasswdd
 		exit 1
