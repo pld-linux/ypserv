@@ -8,7 +8,7 @@ Summary(uk):	óÅÒ×ÅÒ NIS (Network Information Service)
 Summary(zh_CN):	NIS(ÍøÂçÐÅÏ¢·þÎñ)·þÎñÆ÷.
 Name:		ypserv
 Version:	2.9
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking/Daemons
 Source0:	ftp://ftp.kernel.org/pub/linux/utils/net/NIS/%{name}-%{version}.tar.bz2
@@ -25,13 +25,12 @@ BuildRequires:	autoconf
 BuildRequires:	automake >= 1.7
 BuildRequires:	gdbm-devel
 BuildRequires:	libwrap-devel
-Prereq:		rc-scripts
-Prereq:		/sbin/chkconfig
+PreReq:		rc-scripts
+Requires(post,preun):	/sbin/chkconfig
 Requires:	glibc >= 2.2
 Requires:	portmap
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	yppasswd
-Conflicts:	glibc <= 2.1.3
 
 %define		_libexecdir	/usr/lib/yp
 
@@ -107,7 +106,8 @@ Network Information Service (NIS) - ÃÅ ÓÉÓÔÅÍÁ, ÑËÁ ÎÁÄÁ¤ ÍÅÒÅÖÅ×Õ
 %patch2 -p1
 %patch3 -p1
 
-mv etc/README etc/README.etc
+mv -f etc/README etc/README.etc
+
 %build
 %{__aclocal}
 %{__automake}
@@ -178,14 +178,14 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc README INSTALL ChangeLog TODO NEWS
+%doc README ChangeLog TODO NEWS
 %doc etc/ypserv.conf etc/securenets etc/README.etc
-%config %{_sysconfdir}/ypserv.conf
-%config /var/yp/*
-%attr(754,root,root) /etc/rc.d/init.d/*
-%dir /var/yp
 %attr(755,root,root) %{_sbindir}/*
-%attr(755,root,root) %{_libdir}/yp/*
+%attr(755,root,root) %{_libdir}/yp
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/ypserv.conf
+%dir /var/yp
+%config(noreplace) %verify(not size mtime md5) /var/yp/Makefile
+%attr(754,root,root) /etc/rc.d/init.d/*
 %{_mandir}/man5/*
 %{_mandir}/man8/*
-%{_includedir}/*/*
+%{_includedir}/rpcsvc/ypxfrd.x
