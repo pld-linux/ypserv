@@ -4,7 +4,7 @@ Name:		ypserv
 Version:	1.3.11a
 Release:	1
 Copyright:	GNU
-Group:		System Environment/Daemons
+Group:		Networking/Daemons
 Source0:	ftp://ftp.us.kernel.org/pub/linux/utils/NIS/%{name}-1.3.11.tar.gz
 Source1:	ypserv-ypserv.init
 Source2:	ypserv-yppasswdd.init
