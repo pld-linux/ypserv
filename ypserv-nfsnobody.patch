@@ -1,0 +1,93 @@
+--- ypserv-2.5/scripts/ypMakefile.in.redhat	Mon May 27 09:00:27 2002
++++ ypserv-2.5/scripts/ypMakefile.in	Thu Aug 15 14:39:31 2002
+@@ -32,6 +32,9 @@
+ MINUID=500
+ MINGID=500
+ 
++NFSNOBODYUID=65534
++NFSNOBODYGID=65534
++
+ # Should we merge the passwd file with the shadow file ?
+ # MERGE_PASSWD=true|false
+ MERGE_PASSWD=true
+@@ -284,7 +287,7 @@
+ 	@echo "Updating $@..."
+ 	@$(UMASK); \
+ 	$(MERGER) -p $(PASSWD) $(SHADOW) | \
+-	   $(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$3 >= $(MINUID) ) \
++	   $(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$3 >= $(MINUID) && $$3 != $(NFSNOBODYUID) ) \
+ 	   print $$1"\t"$$0 }' | $(DBLOAD) -i $(PASSWD) \
+ 		-o $(YPMAPDIR)/$@ - $@
+ 	-@$(NOPUSH) || $(YPPUSH) -d $(DOMAIN) $@
+@@ -293,7 +296,7 @@
+ 	@echo "Updating $@..."
+ 	@$(UMASK); \
+ 	$(MERGER) -p $(PASSWD) $(SHADOW) | \
+-	   $(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$3 >= $(MINUID) ) \
++	   $(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$3 >= $(MINUID) && $$3 != $(NFSNOBODYUID) ) \
+ 	   print $$3"\t"$$0 }' | $(DBLOAD) -i $(PASSWD) \
+ 		 -o $(YPMAPDIR)/$@ - $@
+ 	-@$(NOPUSH) || $(YPPUSH) -d $(DOMAIN) $@
+@@ -307,7 +310,7 @@
+ passwd.byname: $(PASSWD) $(YPDIR)/Makefile
+ 	@echo "Updating $@..."
+ 	@$(UMASK); \
+-	$(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$3 >= $(MINUID) ) \
++	$(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$3 >= $(MINUID) && $$3 != $(NFSNOBODYUID) ) \
+ 	   print $$1"\t"$$0 }' $(PASSWD) | $(DBLOAD) -i $(PASSWD) \
+ 		-o $(YPMAPDIR)/$@ - $@
+ 	-@$(NOPUSH) || $(YPPUSH) -d $(DOMAIN) $@
+@@ -315,7 +318,7 @@
+ passwd.byuid: $(PASSWD) $(YPDIR)/Makefile
+ 	@echo "Updating $@..."
+ 	@$(UMASK); \
+-	$(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$3 >= $(MINUID) ) \
++	$(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$3 >= $(MINUID) && $$3 != $(NFSNOBODYUID) ) \
+ 	   print $$3"\t"$$0 }' $(PASSWD) | $(DBLOAD) -i $(PASSWD) \
+ 		 -o $(YPMAPDIR)/$@ - $@
+ 	-@$(NOPUSH) || $(YPPUSH) -d $(DOMAIN) $@
+@@ -324,7 +327,7 @@
+ 	@echo "Updating $@..."
+ 	@$(UMASK); \
+ 	$(AWK) -F: '{ if (FILENAME ~ /shadow$$/) { \
+-		if (UID[$$1] >= $(MINUID) ) print $$1"\t"$$0; \
++		if (UID[$$1] >= $(MINUID) && UID[$$1] != $(NFSNOBODYUID)) print $$1"\t"$$0; \
+ 			} else UID[$$1] = $$3; }' $(PASSWD) $(SHADOW) \
+ 		| $(DBLOAD) -s -i $(SHADOW) -o $(YPMAPDIR)/$@ - $@
+ 	-@$(NOPUSH) || $(YPPUSH) -d $(DOMAIN) $@
+@@ -343,7 +346,7 @@
+ 	@echo "Updating $@..."
+ 	@$(UMASK); \
+ 	$(MERGER) -g $(GROUP) $(GSHADOW) | \
+-	$(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$3 >= $(MINGID) ) \
++	$(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$3 >= $(MINGID) && $$3 != $(NFSNOBODYGID) ) \
+ 	print $$1"\t"$$0 }' | $(DBLOAD) -i $(GROUP) -o $(YPMAPDIR)/$@ - $@
+ 	-@$(NOPUSH) || $(YPPUSH) -d $(DOMAIN) $@
+ 
+@@ -351,7 +354,7 @@
+ 	@echo "Updating $@..."
+ 	@$(UMASK); \
+ 	$(MERGER) -g $(GROUP) $(GSHADOW) | \
+-	$(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$3 >= $(MINGID) ) \
++	$(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$3 >= $(MINGID) && $$3 != $(NFSNOBODYGID) ) \
+ 	print $$3"\t"$$0 }' | $(DBLOAD) -i $(GROUP) -o $(YPMAPDIR)/$@ - $@
+ 	-@$(NOPUSH) || $(YPPUSH) -d $(DOMAIN) $@
+ 
+@@ -360,7 +363,7 @@
+ group.byname: $(GROUP) $(YPDIR)/Makefile
+ 	@echo "Updating $@..."
+ 	@$(UMASK); \
+-	$(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$3 >= $(MINGID) ) \
++	$(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$3 >= $(MINGID) && $$3 != $(NFSNOBODYGID) ) \
+ 					print $$1"\t"$$0 }' $(GROUP) \
+ 		| $(DBLOAD) -i $(GROUP) -o $(YPMAPDIR)/$@ - $@
+ 	-@$(NOPUSH) || $(YPPUSH) -d $(DOMAIN) $@
+@@ -368,7 +371,7 @@
+ group.bygid: $(GROUP) $(YPDIR)/Makefile
+ 	@echo "Updating $@..."
+ 	@$(UMASK); \
+-	$(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$3 >= $(MINGID) ) \
++	$(AWK) -F: '!/^[-+#]/ { if ($$1 != "" && $$3 >= $(MINGID) && $$3 != $(NFSNOBODYGID) ) \
+ 					print $$3"\t"$$0 }' $(GROUP) \
+ 		| $(DBLOAD) -i $(GROUP) -o $(YPMAPDIR)/$@ - $@
+ 	-@$(NOPUSH) || $(YPPUSH) -d $(DOMAIN) $@
