@@ -1,12 +1,12 @@
 #!/bin/sh
 #
-# yppasswdd	YP password changing server
+# yppasswdd	NIS password changing server
 #
 # chkconfig:	345 43 62
 #
-# description:  yppasswdd is the RPC server that lets users  change  their \
-#		passwords  in  the presence of NIS (a.k.a. YP). It must be \
-#		run on the NIS master server for that NIS domain. The client \
+# description:	yppasswdd is the RPC server that lets users change their \
+#		passwords in the presence of NIS (a.k.a. YP).  It must be \
+#		run on the NIS master server for that NIS domain.  The client \
 #		program is knwon as yppasswd in most cases.
 # processname:	rpc.yppasswdd
 
@@ -21,9 +21,13 @@
 [ -f /etc/sysconfig/yppasswdd ] && . /etc/sysconfig/yppasswdd
 
 # Check that networking is up.
-if is_no "${NETWORKING}"; then
-	msg_Network_Down yppasswd
-	exit 1
+if is_yes "${NETWORKING}"; then
+	if [ ! -f /var/lock/subsys/network ]; then
+		msg_network_down "NIS passwd"
+		exit 1
+	fi
+else
+	exit 0
 fi
 
 if [ "$YPFILEDIR" ]; then
@@ -51,7 +55,7 @@ check_nisdomain()
 	if [ -n "$NISDOMAIN" ]; then
 		return 0
 	else
-		echo "Setup /etc/sysconfig/network::NISDOMAIN before use yppasswdd."
+		nls "Setup /etc/sysconfig/network::NISDOMAIN before use %s." yppasswdd
 		exit 1
 	fi
 }
@@ -59,7 +63,7 @@ check_nisdomain()
 
 # See how we were called.
 case "$1" in
-	start)
+  start)
 	check_nisdomain
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/yppasswdd ]; then
@@ -68,22 +72,25 @@ case "$1" in
 			daemon rpc.yppasswdd $YPSTRING
 		else
 			daemon rpc.yppasswdd
-		fi 
+		fi
+		RETVAL=$?
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/yppasswdd
 	else
-		msg_Already_Running rpc.yppasswdd
+		msg_already_running "NIS passwd"
 		exit 1
 	fi
-	touch /var/lock/subsys/yppasswdd
 	;;
   stop)
 	check_nisdomain
-	if [ ! -f /var/lock/subsys/yppasswdd ]; then
-		msg_Not_Running rpc.yppasswdd
+	if [ -f /var/lock/subsys/yppasswdd ]; then
+		msg_stopping "NIS passwd"
+		killproc rpc.yppasswdd
+		RETVAL=$?
+		rm -f /var/lock/subsys/yppasswdd
+	else
+		msg_not_running "NIS passwd"
 		exit 1
 	fi
-	msg_stopping "NIS passwd"
-	killproc rpc.yppasswdd
-	rm -f /var/lock/subsys/yppasswdd
 	;;
   status)
 	check_nisdomain
@@ -92,10 +99,15 @@ case "$1" in
   restart|reload)
 	$0 stop
 	$0 start
+	exit $?
+	;;
+  force-reload)
+	$0 stop && $0 start
+	exit $?
 	;;
   *)
-	msg_Usage "$0 {start|stop|status|restart|reload}"
+	msg_usage "$0 {start|stop|restart|reload|force-reload|status}"
 	exit 1
 esac
 
-exit 0
+exit $RETVAL
