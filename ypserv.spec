@@ -48,10 +48,10 @@ make MAN1DIR=%{_mandir}/man1 \
 rm -rf $RPM_BUILD_ROOT
 make install \
 	ROOT=$RPM_BUILD_ROOT \
-	YPMAPDIR=$RPM_BUILD_ROOT/var/yp \
-	MAN1DIR=$RPM_BUILD_ROOT/%{_mandir}/man1 \
-	MAN5DIR=$RPM_BUILD_ROOT/%{_mandir}/man5 \
-	MAN8DIR=$RPM_BUILD_ROOT/%{_mandir}/man8
+	YPMAPDIR=/var/yp \
+	MAN1DIR=%{_mandir}/man1 \
+	MAN5DIR=%{_mandir}/man5 \
+	MAN8DIR=%{_mandir}/man8
 
 install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
 install etc/ypserv.conf $RPM_BUILD_ROOT/etc
