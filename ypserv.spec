@@ -6,7 +6,7 @@ Summary(ru):	Сервер NIS (Network Information Service)
 Summary(uk):	Сервер NIS (Network Information Service)
 Name:		ypserv
 Version:	1.3.12
-Release:	6
+Release:	7
 License:	GPL
 Group:		Networking/Daemons
 Source0:	ftp://ftp.us.kernel.org/pub/linux/utils/net/NIS/%{name}-%{version}.tar.bz2
