@@ -5,6 +5,7 @@ Version:	1.3.11a
 Release:	1
 Copyright:	GNU
 Group:		Networking/Daemons
+Group(pl):	Sieciowe/Serwery
 Source0:	ftp://ftp.us.kernel.org/pub/linux/utils/NIS/%{name}-1.3.11.tar.gz
 Source1:	ypserv-ypserv.init
 Source2:	ypserv-yppasswdd.init
@@ -13,26 +14,30 @@ Patch1:		ypserv-conf.patch
 Patch2:		ypserv-remember.patch
 Patch3:		ypserv-libwrap.patch
 Patch4:		ypserv-1.3.11a.diff
+Patch5:		ypserv-FHS.patch
 Requires:	portmap
 Requires:	tcp_wrappers
 Requires:	rc-scripts
 Requires:	glibc >= 2.0
+Requires:	gdbm >= 1.8.0
 Prereq:		/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	yppasswd
 
+%define		_libexecdir	/usr/lib/yp
+
 %description
-The Network Information Service (NIS) is a system which provides network
-information (login names, passwords, home directories, group information)
-to all of the machines on a network.  NIS can enable users to login on
-any machine on the network, as long as the machine has the NIS client
-programs running and the user's password is recorded in the NIS passwd
-database.  NIS was formerly known as Sun Yellow Pages (YP).
+The Network Information Service (NIS) is a system which provides
+network information (login names, passwords, home directories, group
+information) to all of the machines on a network. NIS can enable users
+to login on any machine on the network, as long as the machine has the
+NIS client programs running and the user's password is recorded in the
+NIS passwd database. NIS was formerly known as Sun Yellow Pages (YP).
 
 This package provides the NIS server, which will need to be running on
-your network.  NIS clients do not need to be running the server.
+your network. NIS clients do not need to be running the server.
 
-Install ypserv if you need an NIS server for your network.  You'll also
+Install ypserv if you need an NIS server for your network. You'll also
 need to install the yp-tools and ypbind packages onto any NIS client
 machines.
 
@@ -43,12 +48,12 @@ machines.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p0
+%patch5 -p1
 
 %build
 cp etc/README etc/README.etc
-CFLAGS=$RPM_OPT_FLAGS \
-./configure %{_target_platform} \
-	--prefix=%{_prefix} \
+rm -f config.cache
+%{configure} \
 	--enable-tcp-wrapper \
 	--enable-fqdn \
 	--enable-yppasswd 
@@ -61,19 +66,16 @@ CFLAGS=$RPM_OPT_FLAGS \
 rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	ROOT=$RPM_BUILD_ROOT \
-	YPMAPDIR=/var/yp \
+	YPMAPDIR=/var/lib/yp \
 	MAN1DIR=%{_mandir}/man1 \
 	MAN5DIR=%{_mandir}/man5 \
 	MAN8DIR=%{_mandir}/man8 \
 	INSTALL="/usr/bin/install -c"
 
 install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
-install etc/ypserv.conf $RPM_BUILD_ROOT/etc
+install etc/ypserv.conf $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ypserv
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/yppasswdd
-
-strip --strip-unneeded $RPM_BUILD_ROOT/%{_sbindir}/* \
-	$RPM_BUILD_ROOT/usr/lib/yp/* || :
 
 gzip -9nf {README,README.secure,INSTALL,ChangeLog,TODO} \
 	{etc/ypserv.conf,etc/securenets,etc/README.etc} \
@@ -102,12 +104,13 @@ fi
 %defattr(644,root,root,755)
 %doc {README,README.secure,INSTALL,ChangeLog,TODO}.gz
 %doc {etc/ypserv.conf,etc/securenets,etc/README.etc}.gz
-%config /etc/ypserv.conf
-%config /var/yp/*
+%config %{_sysconfdir}/ypserv.conf
+%config %{_sysconfdir}/netgroup
+%config /var/lib/yp/*
 %attr(754,root,root) %config /etc/rc.d/init.d/*
-%dir /var/yp
+%dir /var/lib/yp
 %attr(755,root,root) %{_sbindir}/*
-%attr(755,root,root) /usr/lib/yp/*
+%attr(755,root,root) %{_libdir}/yp/*
 %{_mandir}/man5/*
 %{_mandir}/man8/*
-/usr/include/*/*
+%{_includedir}/*/*
