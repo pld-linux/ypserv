@@ -40,8 +40,8 @@ case "$1" in
 	touch /var/lock/subsys/yppasswdd
 	;;
   stop)
-	if [ ! -f /var/lock/subsys/automount ]; then
-		echo "Automounter not running"
+	if [ ! -f /var/lock/subsys/yppasswdd ]; then
+		echo "rpc.yppasswdd not running"
 		exit 1
 	fi
 	show "Stopping YP passwd service"
