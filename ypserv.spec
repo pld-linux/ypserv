@@ -1,7 +1,7 @@
 Summary:	The NIS (Network Information Service) server.
 Url:		http://www-vt.uni-paderborn.de/~kukuk/linux/nis.html
 Name:		ypserv
-Version:	1.3.6.94
+Version:	1.3.8
 Release:	1
 Copyright:	GNU
 Group:		System Environment/Daemons
@@ -12,7 +12,6 @@ Patch0:		ypserv-ypMakefile.patch
 Patch1:		ypserv-conf.patch
 Patch2:		ypserv-remember.patch
 Patch3:		ypserv-libwrap.patch
-Patch4:		ypserv-update.patch
 Requires:	portmap
 Requires:	tcp_wrappers
 Requires:	rc-scripts
@@ -42,7 +41,6 @@ machines.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 
 %build
 cp etc/README etc/README.etc
