@@ -2,7 +2,7 @@ Summary:	The NIS (Network Information Service) server
 Summary(pl):	Serwer NIS (Network Information Service)
 Name:		ypserv
 Version:	1.3.12
-Release:	3
+Release:	4
 License:	GPL
 Group:		Networking/Daemons
 Source0:	ftp://ftp.us.kernel.org/pub/linux/utils/net/NIS/%{name}-%{version}.tar.bz2
