@@ -1,0 +1,14 @@
+diff -urN ypserv-1.3.12.orig/ypinit.in ypserv-1.3.12/ypinit.in
+--- ypserv-1.3.12.orig/ypinit.in	Sat Aug 28 20:10:30 1999
++++ ypserv-1.3.12/ypinit.in	Sun Dec 22 19:46:57 2002
+@@ -21,8 +21,8 @@
+     echo "The host specified should be a running master NIS server, not this machine."
+     exit 1
+   fi
+-#  maps=`ypwhich -m | egrep $MASTER$| awk '{ printf("%s ",$1) }' -`
+-  maps=`$YPBINDIR/yphelper --maps $MASTER`
++  maps=`ypwhich -m | egrep $MASTER$| awk '{ printf("%s ",$1) }' -`
++#  maps=`$YPBINDIR/yphelper --maps $MASTER`
+ 
+   if [ -z "$maps" ]
+   then
