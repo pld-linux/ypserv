@@ -6,7 +6,7 @@ Summary(ru):	Сервер NIS (Network Information Service)
 Summary(uk):	Сервер NIS (Network Information Service)
 Name:		ypserv
 Version:	1.3.12
-Release:	4
+Release:	5
 License:	GPL
 Group:		Networking/Daemons
 Source0:	ftp://ftp.us.kernel.org/pub/linux/utils/net/NIS/%{name}-%{version}.tar.bz2
@@ -134,8 +134,8 @@ install etc/ypserv.conf $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ypserv
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/yppasswdd
 
-gzip -9nf {README,README.secure,INSTALL,ChangeLog,TODO} \
-	{etc/ypserv.conf,etc/securenets,etc/README.etc}
+#gzip -9nf {README,README.secure,INSTALL,ChangeLog,TODO} \
+#	{etc/ypserv.conf,etc/securenets,etc/README.etc}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -145,13 +145,13 @@ rm -rf $RPM_BUILD_ROOT
 if [ -f /var/lock/subsys/ypserv ]; then
 	/etc/rc.d/init.d/ypserv restart >&2
 else
-	echo "Run '/etc/rc.d/init.d/ypserv start' to start YP server." >&2
+	echo "Run '/etc/rc.d/init.d/ypserv start' to start NIS server." >&2
 fi
 /sbin/chkconfig --add yppasswdd
 if [ -f /var/lock/subsys/yppasswdd ]; then
 	/etc/rc.d/init.d/yppasswdd restart >&2
 else
-	echo "Run '/etc/rc.d/init.d/yppasswdd start' to start YP password changing server." >&2
+	echo "Run '/etc/rc.d/init.d/yppasswdd start' to start NIS password changing server." >&2
 fi
 
 %triggerpostun -- ypserv <= ypserv-1.3.0-2
@@ -174,8 +174,8 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc {README,README.secure,INSTALL,ChangeLog,TODO}.gz
-%doc {etc/ypserv.conf,etc/securenets,etc/README.etc}.gz
+%doc README README.secure INSTALL ChangeLog TODO
+%doc etc/ypserv.conf etc/securenets etc/README.etc
 %config %{_sysconfdir}/ypserv.conf
 %config %{_sysconfdir}/netgroup
 %config /var/yp/*
