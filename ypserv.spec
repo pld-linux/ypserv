@@ -47,7 +47,7 @@ make MAN1DIR=%{_mandir}/man1 \
 %install
 rm -rf $RPM_BUILD_ROOT
 make install \
-	prefix=$RPM_BUILD_ROOT/usr \
+	ROOT=$RPM_BUILD_ROOT \
 	YPMAPDIR=$RPM_BUILD_ROOT/var/yp \
 	MAN1DIR=$RPM_BUILD_ROOT/%{_mandir}/man1 \
 	MAN5DIR=$RPM_BUILD_ROOT/%{_mandir}/man5 \
