@@ -2,7 +2,7 @@
 #
 # ypserv:       Starts the yp-server
 #
-# chkconfig:	345 12 88
+# chkconfig:	345 41 64
 #
 # description:	ypserv is an implementation of the standard NIS/YP networking \
 #		protocol. It allows network-wide distribution of hostname, \
