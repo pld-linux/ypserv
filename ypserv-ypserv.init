@@ -42,7 +42,7 @@ case "$1" in
 	touch /var/lock/subsys/ypserv
 	;;
   stop)
-	msg_stopping "YP server"
+	msg_stopping "NIS server"
 	killproc ypserv
 	rm -f /var/lock/subsys/ypserv
 	;;
