@@ -1,21 +1,20 @@
 Summary:	The NIS (Network Information Service) server
 Name:		ypserv
-Version:	1.3.11a
-Release:	2
+Version:	1.3.12
+Release:	1
 License:	GPL
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
-Source0:	ftp://ftp.us.kernel.org/pub/linux/utils/NIS/%{name}-1.3.11.tar.gz
+Source0:	ftp://ftp.us.kernel.org/pub/linux/utils/net/NIS/%{name}-%{version}.tar.bz2
 Source1:	%{name}-ypserv.init
 Source2:	%{name}-yppasswdd.init
 Patch0:		%{name}-ypMakefile.patch
 Patch1:		%{name}-conf.patch
 Patch2:		%{name}-remember.patch
 Patch3:		%{name}-libwrap.patch
-Patch4:		%{name}-1.3.11a.diff
-Patch5:		%{name}-syslog.patch
-Patch6:		%{name}-security.patch
+Patch4:		%{name}-syslog.patch
+Patch5:		%{name}-security.patch
 URL:		http://www-vt.uni-paderborn.de/~kukuk/linux/nis.html
 BuildRequires:	gdbm-devel
 BuildRequires:	libwrap-devel
@@ -43,19 +42,17 @@ need to install the yp-tools and ypbind packages onto any NIS client
 machines.
 
 %prep
-%setup -q -n %{name}-1.3.11
+%setup -q
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p0
+%patch4 -p1
 %patch5 -p1
-%patch6 -p1
 
+mv etc/README etc/README.etc
 %build
-cp etc/README etc/README.etc
-rm -f config.cache
-%{configure} \
+%configure \
 	--enable-tcp-wrapper \
 	--enable-fqdn \
 	--enable-yppasswd 
@@ -125,7 +122,7 @@ fi
 %config %{_sysconfdir}/ypserv.conf
 %config %{_sysconfdir}/netgroup
 %config /var/yp/*
-%attr(754,root,root) %config /etc/rc.d/init.d/*
+%attr(754,root,root) /etc/rc.d/init.d/*
 %dir /var/yp
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_libdir}/yp/*
