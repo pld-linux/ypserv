@@ -6,7 +6,7 @@ Summary(ru):	Сервер NIS (Network Information Service)
 Summary(uk):	Сервер NIS (Network Information Service)
 Name:		ypserv
 Version:	1.3.12
-Release:	5
+Release:	6
 License:	GPL
 Group:		Networking/Daemons
 Source0:	ftp://ftp.us.kernel.org/pub/linux/utils/net/NIS/%{name}-%{version}.tar.bz2
@@ -18,6 +18,7 @@ Patch2:		%{name}-remember.patch
 Patch3:		%{name}-libwrap.patch
 Patch4:		%{name}-syslog.patch
 Patch5:		%{name}-security.patch
+Patch6:		%{name}-security-memory_leak_fix.patch
 URL:		http://www-vt.uni-paderborn.de/~kukuk/linux/nis.html
 BuildRequires:	gdbm-devel
 BuildRequires:	libwrap-devel
@@ -104,6 +105,7 @@ Network Information Service (NIS) - це система, яка нада╓ мережеву
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 mv etc/README etc/README.etc
 %build
