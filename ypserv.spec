@@ -12,7 +12,7 @@ Group:		Networking/Daemons
 Source0:	ftp://ftp.us.kernel.org/pub/linux/utils/net/NIS/%{name}-%{version}.tar.bz2
 Source1:	%{name}-%{name}.init
 Source2:	%{name}-yppasswdd.init
-Source3:	%{name}-yppaswd.sysconfig
+Source3:	%{name}-yppasswd.sysconfig
 Patch0:		%{name}-ypMakefile.patch
 Patch1:		%{name}-conf.patch
 Patch2:		%{name}-remember.patch
