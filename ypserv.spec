@@ -17,7 +17,7 @@ Requires:	tcp_wrappers
 Requires:	rc-scripts
 Requires:	glibc >= 2.0
 Prereq:		/sbin/chkconfig
-Buildroot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	yppasswd
 
 %description
