@@ -12,6 +12,7 @@ Patch0:		ypserv-ypMakefile.patch
 Patch1:		ypserv-conf.patch
 Patch2:		ypserv-remember.patch
 Patch3:		ypserv-libwrap.patch
+Patch4:		ypserv-update.patch
 Requires:	portmap
 Requires:	tcp_wrappers
 Requires:	rc-scripts
@@ -41,6 +42,7 @@ machines.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 cp etc/README etc/README.etc
