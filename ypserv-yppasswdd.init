@@ -1,30 +1,46 @@
 #!/bin/sh
 #
-# yppasswdd:    Starts the yp-passwdd, the YP password changing server
+# yppasswdd	YP password changing server
 #
-# Version:      @(#) /etc/rc.d/init.d/yppasswdd 1.0
+# chkconfig:	345 66 34
 #
-# chkconfig: - 66 34
 # description:  yppasswdd is the RPC server that lets users  change  their \
 #		passwords  in  the presence of NIS (a.k.a. YP). It must be \
 #		run on the NIS master server for that NIS domain. The client \
 #		program is knwon as yppasswd in most cases.
-# processname: rpc.yppasswdd
+# processname:	rpc.yppasswdd
 
-# Source function library.
+
+# Source function library
 . /etc/rc.d/init.d/functions
 
-# getting the YP-Domainname
+# Get network config
 . /etc/sysconfig/network
+
+# Get service config
+[ -f /etc/sysconfig/yppasswdd ] && . /etc/sysconfig/yppasswdd
+
+# Check that networking is up.
+[ "${NETWORKING}" = "no" ] && echo "Error: Networking is down"; exit 0
+
 
 # See how we were called.
 case "$1" in
   start)
-	show "Starting YP passwd service"
-	daemon rpc.yppasswdd
+	# Check if the service is already running?
+	if [ ! -f /var/lock/subsys/yppasswdd ]; then
+		show Starting YP passwd service
+		daemon rpc.yppasswdd
+	else
+		echo "rpc.yppasswdd already is running"
+	fi
 	touch /var/lock/subsys/yppasswdd
 	;;
   stop)
+	if [ ! -f /var/lock/subsys/automount ]; then
+		echo "Automounter not running"
+		exit 1
+	fi
 	show "Stopping YP passwd service"
 	killproc rpc.yppasswdd
 	rm -f /var/lock/subsys/yppasswdd

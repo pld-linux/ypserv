@@ -2,29 +2,40 @@
 #
 # ypserv:       Starts the yp-server
 #
-# Version:      @(#) /etc/rc.d/init.d/ypserv.init 1.0
+# chkconfig:	345 12 88
 #
-# Author:       Joerg Mertin <smurphy@stargate.bln.sub.org>
+# description:	ypserv is an implementation of the standard NIS/YP networking \
+#		protocol. It allows network-wide distribution of hostname, \
+#		username, and other information databases. This is the NIS \
+#		server, and is not needed on NIS clients.
 #
-# chkconfig: - 12 88
-# description: ypserv is an implementation of the standard NIS/YP networking \
-#              protocol.  It allows network-wide distribution of hostname, \
-#              username, and other information databases. This is the NIS \
-#              server, and is not needed on NIS clients.
-# processname: ypserv
-# config: /etc/ypserv.conf
+# processname:	ypserv
+# config:	/etc/ypserv.conf
 
-# Source function library.
+
+# Source function library
 . /etc/rc.d/init.d/functions
 
-# getting the YP-Domainname
+# Get network config
 . /etc/sysconfig/network
+
+# Get service config
+[ -f /etc/sysconfig/ypserv-ypserv ] && . /etc/sysconfig/ypserv-ypserv
+
+# Check that networking is up.
+[ "${NETWORKING}" = "no" ] && echo "Error: Networking is down"; exit 0
+
 
 # See how we were called.
 case "$1" in
   start)
-	show "Starting YP server services"
-	daemon ypserv
+	# Check if the service is already running?
+	if [ ! -f /var/lock/subsys/ypserv ]; then
+		show Starting YP server services
+		daemon ypserv
+	else
+		echo "ypserv already is running"
+	fi
 	touch /var/lock/subsys/ypserv
 	;;
   stop)
@@ -35,12 +46,12 @@ case "$1" in
   status)
 	status ypserv
 	;;
-  restart)
+  restart|reload)
 	$0 stop
 	$0 start
 	;;
   *)
-	echo "Usage: $0 {start|stop|status|restart}"
+	echo "Usage: $0 {start|stop|status|restart|reload}"
 	exit 1
 esac
 
