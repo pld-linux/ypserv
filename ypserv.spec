@@ -1,24 +1,25 @@
 Summary:	The NIS (Network Information Service) server
 Summary(es):	Servidor NIS/YP
+Summary(ja):	NIS(¥Í¥Ã¥È¥ï¡¼¥¯¾ðÊó¥µ¡¼¥Ó¥¹)¥µ¡¼¥Ð¡¼
 Summary(pl):	Serwer NIS (Network Information Service)
 Summary(pt_BR):	Servidor NIS/YP
 Summary(ru):	óÅÒ×ÅÒ NIS (Network Information Service)
 Summary(uk):	óÅÒ×ÅÒ NIS (Network Information Service)
+Summary(zh_CN):	NIS(ÍøÂçÐÅÏ¢·þÎñ)·þÎñÆ÷.
 Name:		ypserv
-Version:	1.3.12
-Release:	4
+Version:	2.5
+Release:	1
 License:	GPL
 Group:		Networking/Daemons
-Source0:	ftp://ftp.us.kernel.org/pub/linux/utils/net/NIS/%{name}-%{version}.tar.bz2
+Source0:	ftp://ftp.kernel.org/pub/linux/utils/net/NIS/%{name}-%{version}.tar.bz2
 Source1:	%{name}-%{name}.init
 Source2:	%{name}-yppasswdd.init
+Source3:	%{name}-ypxfrd.init
 Patch0:		%{name}-ypMakefile.patch
-Patch1:		%{name}-conf.patch
-Patch2:		%{name}-remember.patch
-Patch3:		%{name}-libwrap.patch
-Patch4:		%{name}-syslog.patch
-Patch5:		%{name}-security.patch
-URL:		http://www-vt.uni-paderborn.de/~kukuk/linux/nis.html
+Patch1:		%{name}-syslog.patch
+Patch2:		%{name}-path.patch
+Patch3:		%{name}-nfsnobody.patch
+URL:		http://www.linux-nis.org/
 BuildRequires:	gdbm-devel
 BuildRequires:	libwrap-devel
 Requires:	glibc >= 2.2
@@ -102,40 +103,30 @@ Network Information Service (NIS) - ÃÅ ÓÉÓÔÅÍÁ, ÑËÁ ÎÁÄÁ¤ ÍÅÒÅÖÅ×Õ
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
-%patch5 -p1
 
 mv etc/README etc/README.etc
 %build
-#aclocal
-#autoconf
-%configure2_13 \
-	--enable-tcp-wrapper \
+%{__aclocal}
+%{__automake}
+%{__autoconf}
+%configure \
+	--enable-check-root \
 	--enable-fqdn \
 	--enable-yppasswd
-
-%{__make} MAN1DIR=%{_mandir}/man1 \
-	MAN5DIR=%{_mandir}/man5 \
-	MAN8DIR=%{_mandir}/man8
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
 
 %{__make} install \
-	ROOT=$RPM_BUILD_ROOT \
-	YPMAPDIR=/var/yp \
-	MAN1DIR=%{_mandir}/man1 \
-	MAN5DIR=%{_mandir}/man5 \
-	MAN8DIR=%{_mandir}/man8 \
-	INSTALL="install -c"
+	DESTDIR=$RPM_BUILD_ROOT \
+	YPMAPDIR=/var/yp
 
 install etc/ypserv.conf $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ypserv
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/yppasswdd
-
-gzip -9nf {README,README.secure,INSTALL,ChangeLog,TODO} \
-	{etc/ypserv.conf,etc/securenets,etc/README.etc}
+install %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/ypxfrd
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -152,6 +143,12 @@ if [ -f /var/lock/subsys/yppasswdd ]; then
 	/etc/rc.d/init.d/yppasswdd restart >&2
 else
 	echo "Run '/etc/rc.d/init.d/yppasswdd start' to start YP password changing server." >&2
+fi
+/sbin/chkconfig --add ypxfrd
+if [ -f /var/lock/subsys/xfrd ]; then
+	/etc/rc.d/init.d/xfrd restart >&2
+else
+	echo "Run '/etc/rc.d/init.d/xfrd start' to start YP map server." >&2
 fi
 
 %triggerpostun -- ypserv <= ypserv-1.3.0-2
@@ -170,14 +167,17 @@ if [ "$1" = "0" ]; then
 		/etc/rc.d/init.d/yppasswdd stop >&2
 	fi
 	/sbin/chkconfig --del yppasswdd
+	if [ -f /var/lock/subsys/ypxfrd ]; then
+		/etc/rc.d/init.d/ypxfrd stop >&2
+	fi
+	/sbin/chkconfig --del ypxfrd
 fi
 
 %files
 %defattr(644,root,root,755)
-%doc {README,README.secure,INSTALL,ChangeLog,TODO}.gz
-%doc {etc/ypserv.conf,etc/securenets,etc/README.etc}.gz
+%doc README INSTALL ChangeLog TODO NEWS
+%doc etc/ypserv.conf etc/securenets etc/README.etc
 %config %{_sysconfdir}/ypserv.conf
-%config %{_sysconfdir}/netgroup
 %config /var/yp/*
 %attr(754,root,root) /etc/rc.d/init.d/*
 %dir /var/yp
