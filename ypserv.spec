@@ -7,7 +7,7 @@ Summary(ru):	笈易乓 NIS (Network Information Service)
 Summary(uk):	笈易乓 NIS (Network Information Service)
 Summary(zh_CN):	NIS(网络信息服务)服务器.
 Name:		ypserv
-Version:	2.7
+Version:	2.8
 Release:	1
 License:	GPL
 Group:		Networking/Daemons
