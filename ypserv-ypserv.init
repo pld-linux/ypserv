@@ -37,12 +37,12 @@ check_nisdomain()
 	if [ -n "$NISDOMAIN" ]; then
 		return 0
 	else
-		echo "Setup /etc/sysconfig/network::NISDOMAIN before use ypserv."
-		exit 1
+		nls "Setup /etc/sysconfig/network::NISDOMAIN before use %s." ypserv >&2
+		exit 6
 	fi
 }
 
-
+RETVAL=0
 # See how we were called.
 case "$1" in
   start)
@@ -55,7 +55,6 @@ case "$1" in
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/ypserv
 	else
 		msg_already_running ypserv
-		exit 1
 	fi
 	;;
   stop)
@@ -63,29 +62,24 @@ case "$1" in
 	if [ -f /var/lock/subsys/ypserv ]; then
 		msg_stopping "NIS server"
 		killproc ypserv
-		RETVAL=$?
 		rm -f /var/lock/subsys/ypserv
 	else
 		msg_not_running "NIS server"
-		exit 1
 	fi
 	;;
   status)
 	check_nisdomain
 	status ypserv
+	exit $?
 	;;
-  restart|reload)
+  restart|force-reload)
 	$0 stop
 	$0 start
 	exit $?
 	;;
-  force-reload)
-	$0 stop && $0 start
-	exit $?
-	;;
   *)
-	msg_usage "$0 {start|stop|restart|reload|force-reload|status}"
-	exit 1
+	msg_usage "$0 {start|stop|restart|force-reload|status}"
+	exit 3
 esac
 
 exit $RETVAL

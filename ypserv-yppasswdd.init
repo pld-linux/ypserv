@@ -55,8 +55,8 @@ check_nisdomain()
 	if [ -n "$NISDOMAIN" ]; then
 		return 0
 	else
-		nls "Setup /etc/sysconfig/network::NISDOMAIN before use %s." yppasswdd
-		exit 1
+		nls "Setup /etc/sysconfig/network::NISDOMAIN before use %s." yppasswdd >&2
+		exit 6
 	fi
 }
 
@@ -77,7 +77,6 @@ case "$1" in
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/yppasswdd
 	else
 		msg_already_running "NIS passwd"
-		exit 1
 	fi
 	;;
   stop)
@@ -85,29 +84,24 @@ case "$1" in
 	if [ -f /var/lock/subsys/yppasswdd ]; then
 		msg_stopping "NIS passwd"
 		killproc rpc.yppasswdd
-		RETVAL=$?
 		rm -f /var/lock/subsys/yppasswdd
 	else
 		msg_not_running "NIS passwd"
-		exit 1
 	fi
 	;;
   status)
 	check_nisdomain
 	status rpc.yppasswdd
+	exit $?
 	;;
-  restart|reload)
+  restart|force-reload)
 	$0 stop
 	$0 start
 	exit $?
 	;;
-  force-reload)
-	$0 stop && $0 start
-	exit $?
-	;;
   *)
-	msg_usage "$0 {start|stop|restart|reload|force-reload|status}"
-	exit 1
+	msg_usage "$0 {start|stop|restart|force-reload|status}"
+	exit 3
 esac
 
 exit $RETVAL
