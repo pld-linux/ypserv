@@ -1,0 +1,9 @@
+diff -urbB ypserv-2.17.org/scripts/create_printcap.in ypserv-2.17/scripts/create_printcap.in
+--- ypserv-2.17.org/scripts/create_printcap.in	2002-04-26 21:58:03.000000000 +0200
++++ ypserv-2.17/scripts/create_printcap.in	2005-10-09 12:40:49.687719000 +0200
+@@ -1,4 +1,4 @@
+-#!/usr/bin/awk -f
++#!/bin/awk -f
+ #
+ # create_printcap
+ #
