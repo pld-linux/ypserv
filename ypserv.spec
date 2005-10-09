@@ -8,7 +8,7 @@ Summary(uk):	Сервер NIS (Network Information Service)
 Summary(zh_CN):	NIS(мЬбГпео╒╥ЧнЯ)╥ЧнЯфВ.
 Name:		ypserv
 Version:	2.17
-Release:	2
+Release:	3
 License:	GPL
 Group:		Networking/Daemons
 Source0:	ftp://ftp.kernel.org/pub/linux/utils/net/NIS/%{name}-%{version}.tar.bz2
@@ -19,6 +19,7 @@ Source3:	%{name}-ypxfrd.init
 Patch0:		%{name}-ypMakefile.patch
 Patch1:		%{name}-path.patch
 Patch2:		%{name}-nfsnobody.patch
+Patch3:		%{name}-awk.patch
 URL:		http://www.linux-nis.org/
 BuildRequires:	autoconf
 BuildRequires:	automake >= 1:1.7
@@ -103,6 +104,7 @@ Network Information Service (NIS) - це система, яка нада╓ мережеву
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 mv -f etc/README etc/README.etc
 
