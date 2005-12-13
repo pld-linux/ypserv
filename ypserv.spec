@@ -25,10 +25,10 @@ BuildRequires:	autoconf
 BuildRequires:	automake >= 1:1.7
 BuildRequires:	gdbm-devel
 BuildRequires:	libwrap-devel
-PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
 Requires:	glibc >= 2.2
 Requires:	portmap
+Requires:	rc-scripts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	yppasswd
 
@@ -182,9 +182,9 @@ fi
 %doc etc/ypserv.conf etc/securenets etc/README.etc
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_libdir}/yp
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/ypserv.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ypserv.conf
 %dir /var/yp
-%config(noreplace) %verify(not size mtime md5) /var/yp/Makefile
+%config(noreplace) %verify(not md5 mtime size) /var/yp/Makefile
 %attr(754,root,root) /etc/rc.d/init.d/*
 %{_mandir}/man5/*
 %{_mandir}/man8/*
