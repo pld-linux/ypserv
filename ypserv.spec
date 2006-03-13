@@ -8,7 +8,7 @@ Summary(uk):	笈易乓 NIS (Network Information Service)
 Summary(zh_CN):	NIS(网络信息服务)服务器.
 Name:		ypserv
 Version:	2.17
-Release:	3
+Release:	4
 License:	GPL
 Group:		Networking/Daemons
 Source0:	ftp://ftp.kernel.org/pub/linux/utils/net/NIS/%{name}-%{version}.tar.bz2
@@ -25,12 +25,13 @@ BuildRequires:	autoconf
 BuildRequires:	automake >= 1:1.7
 BuildRequires:	gdbm-devel
 BuildRequires:	libwrap-devel
+BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
 Requires:	glibc >= 2.2
 Requires:	portmap
 Requires:	rc-scripts
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	yppasswd
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_libexecdir	%{_libdir}/yp
 
@@ -136,43 +137,29 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add ypserv
-if [ -f /var/lock/subsys/ypserv ]; then
-	/etc/rc.d/init.d/ypserv restart >&2
-else
-	echo "Run '/etc/rc.d/init.d/ypserv start' to start YP server." >&2
-fi
+%service ypserv restart "YP server"
+
 /sbin/chkconfig --add yppasswdd
-if [ -f /var/lock/subsys/yppasswdd ]; then
-	/etc/rc.d/init.d/yppasswdd restart >&2
-else
-	echo "Run '/etc/rc.d/init.d/yppasswdd start' to start YP password changing server." >&2
-fi
+%service yppasswdd restart "YP password changing server"
+
 /sbin/chkconfig --add ypxfrd
-if [ -f /var/lock/subsys/ypxfrd ]; then
-	/etc/rc.d/init.d/ypxfrd restart >&2
-else
-	echo "Run '/etc/rc.d/init.d/ypxfrd start' to start YP map server." >&2
-fi
+%service ypxfrd restart "YP map server"
 
 %triggerpostun -- ypserv <= ypserv-1.3.0-2
 /sbin/chkconfig --add ypserv
 
-%trigerpostun -- yppasswd
+%triggerpostun -- yppasswd
 /sbin/chkconfig --add yppasswdd
 
 %preun
 if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/ypserv ]; then
-		/etc/rc.d/init.d/ypserv stop >&2
-	fi
+	%service ypserv stop
 	/sbin/chkconfig --del ypserv
-	if [ -f /var/lock/subsys/yppasswdd ]; then
-		/etc/rc.d/init.d/yppasswdd stop >&2
-	fi
+
+	%service yppasswdd stop
 	/sbin/chkconfig --del yppasswdd
-	if [ -f /var/lock/subsys/ypxfrd ]; then
-		/etc/rc.d/init.d/ypxfrd stop >&2
-	fi
+
+	%service ypxfrd stop
 	/sbin/chkconfig --del ypxfrd
 fi
 
