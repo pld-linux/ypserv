@@ -5,7 +5,7 @@ Summary(pl):	Serwer NIS (Network Information Service)
 Summary(pt_BR):	Servidor NIS/YP
 Summary(ru):	笈易乓 NIS (Network Information Service)
 Summary(uk):	笈易乓 NIS (Network Information Service)
-Summary(zh_CN):	NIS(网络信息服务)服务器.
+Summary(zh_CN):	NIS(网络信息服务)服务器
 Name:		ypserv
 Version:	2.17
 Release:	4
