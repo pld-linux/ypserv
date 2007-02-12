@@ -1,11 +1,11 @@
 Summary:	The NIS (Network Information Service) server
-Summary(es):	Servidor NIS/YP
-Summary(ja):	NIS(╔м╔ц╔х╔О║╪╔╞╬ПйС╔╣║╪╔с╔╧)╔╣║╪╔п║╪
-Summary(pl):	Serwer NIS (Network Information Service)
-Summary(pt_BR):	Servidor NIS/YP
-Summary(ru):	Сервер NIS (Network Information Service)
-Summary(uk):	Сервер NIS (Network Information Service)
-Summary(zh_CN):	NIS(мЬбГпео╒╥ЧнЯ)╥ЧнЯфВ
+Summary(es.UTF-8):   Servidor NIS/YP
+Summary(ja.UTF-8):   NIS(Ц┐█Ц┐┐Ц┐┬Ц┐╞Ц┐╪Ц┌╞Ф┐┘Е═╠Ц┌╣Ц┐╪Ц┐⌠Ц┌╧)Ц┌╣Ц┐╪Ц┐░Ц┐╪
+Summary(pl.UTF-8):   Serwer NIS (Network Information Service)
+Summary(pt_BR.UTF-8):   Servidor NIS/YP
+Summary(ru.UTF-8):   п║п╣я─п╡п╣я─ NIS (Network Information Service)
+Summary(uk.UTF-8):   п║п╣я─п╡п╣я─ NIS (Network Information Service)
+Summary(zh_CN.UTF-8):   NIS(Г╫▒Г╩°Д©║Ф│╞Ф°█Е┼║)Ф°█Е┼║Е≥╗
 Name:		ypserv
 Version:	2.17
 Release:	4
@@ -50,55 +50,55 @@ Install ypserv if you need an NIS server for your network. You'll also
 need to install the yp-tools and ypbind packages onto any NIS client
 machines.
 
-%description -l es
-ypserv es una implementaciСn del protocolo padrСn de red NIS/YP.
-Permite el uso distribuido de informaciСn como hostname, username,
+%description -l es.UTF-8
+ypserv es una implementaciцЁn del protocolo padrцЁn de red NIS/YP.
+Permite el uso distribuido de informaciцЁn como hostname, username,
 etc.
 
-%description -l pl
-NIS (Network Information Service) to system dostarczaj╠cy informacje
-sieciowe (nazwy u©ytkownikСw, hasЁa, katalogi domowe, informacje o
-grupach) wszystkim maszynom w sieci. NIS mo©e pozwalaФ u©ytkownikom
-logowaФ siЙ na dowolnej maszynie w sieci pod warunkiem, ©e maszyna ma
-dziaЁaj╠ce programy klienckie NIS i hasЁo u©ytkownika jest zapisane w
-bazie haseЁ NIS. NIS byЁ wcze╤niej znany jako YP (Sun Yellow Pages).
+%description -l pl.UTF-8
+NIS (Network Information Service) to system dostarczajд┘cy informacje
+sieciowe (nazwy uе╪ytkownikцЁw, hasе┌a, katalogi domowe, informacje o
+grupach) wszystkim maszynom w sieci. NIS moе╪e pozwalaд┤ uе╪ytkownikom
+logowaд┤ siд≥ na dowolnej maszynie w sieci pod warunkiem, е╪e maszyna ma
+dziaе┌ajд┘ce programy klienckie NIS i hasе┌o uе╪ytkownika jest zapisane w
+bazie haseе┌ NIS. NIS byе┌ wczeе⌡niej znany jako YP (Sun Yellow Pages).
 
-Ten pakiet zawiera serwer NIS, ktСry musi dziaЁaФ w sieci. Klienci nie
-musz╠ dziaЁaФ na maszynie serwera.
+Ten pakiet zawiera serwer NIS, ktцЁry musi dziaе┌aд┤ w sieci. Klienci nie
+muszд┘ dziaе┌aд┤ na maszynie serwera.
 
-%description -l pt_BR
-ypserv И uma implementaГЦo do protocolo padrЦo de rede NIS/YP. Ele
-permite o uso distribuМdo de informaГУes como hostname, username, etc.
+%description -l pt_BR.UTF-8
+ypserv ц╘ uma implementaц╖цёo do protocolo padrцёo de rede NIS/YP. Ele
+permite o uso distribuц╜do de informaц╖ц╣es como hostname, username, etc.
 
-%description -l ru
-Network Information Service (NIS) - это система, которая предоставляет
-сетевую информацию (логины, пароли, домашние каталоги, группы и т.п.)
-всем машинам в сети. NIS может разрешить пользователям вход на любой
-машине если на этой машине запущены клиентские программы NIS и пароль
-пользователя записан в базу данных паролей NIS. NIS ранее был известен
-как Sun Yellow Pages (YP).
+%description -l ru.UTF-8
+Network Information Service (NIS) - я█я┌п╬ я│п╦я│я┌п╣п╪п╟, п╨п╬я┌п╬я─п╟я▐ п©я─п╣п╢п╬я│я┌п╟п╡п╩я▐п╣я┌
+я│п╣я┌п╣п╡я┐я▌ п╦п╫я└п╬я─п╪п╟я├п╦я▌ (п╩п╬пЁп╦п╫я▀, п©п╟я─п╬п╩п╦, п╢п╬п╪п╟я┬п╫п╦п╣ п╨п╟я┌п╟п╩п╬пЁп╦, пЁя─я┐п©п©я▀ п╦ я┌.п©.)
+п╡я│п╣п╪ п╪п╟я┬п╦п╫п╟п╪ п╡ я│п╣я┌п╦. NIS п╪п╬п╤п╣я┌ я─п╟п╥я─п╣я┬п╦я┌я▄ п©п╬п╩я▄п╥п╬п╡п╟я┌п╣п╩я▐п╪ п╡я┘п╬п╢ п╫п╟ п╩я▌п╠п╬п╧
+п╪п╟я┬п╦п╫п╣ п╣я│п╩п╦ п╫п╟ я█я┌п╬п╧ п╪п╟я┬п╦п╫п╣ п╥п╟п©я┐я┴п╣п╫я▀ п╨п╩п╦п╣п╫я┌я│п╨п╦п╣ п©я─п╬пЁя─п╟п╪п╪я▀ NIS п╦ п©п╟я─п╬п╩я▄
+п©п╬п╩я▄п╥п╬п╡п╟я┌п╣п╩я▐ п╥п╟п©п╦я│п╟п╫ п╡ п╠п╟п╥я┐ п╢п╟п╫п╫я▀я┘ п©п╟я─п╬п╩п╣п╧ NIS. NIS я─п╟п╫п╣п╣ п╠я▀п╩ п╦п╥п╡п╣я│я┌п╣п╫
+п╨п╟п╨ Sun Yellow Pages (YP).
 
-Этот пакет содержит сервер NIS, который должен быть запущен в вашей
-сети. Клиенты NIS не обязаны запускать сервер NIS.
+п╜я┌п╬я┌ п©п╟п╨п╣я┌ я│п╬п╢п╣я─п╤п╦я┌ я│п╣я─п╡п╣я─ NIS, п╨п╬я┌п╬я─я▀п╧ п╢п╬п╩п╤п╣п╫ п╠я▀я┌я▄ п╥п╟п©я┐я┴п╣п╫ п╡ п╡п╟я┬п╣п╧
+я│п╣я┌п╦. п п╩п╦п╣п╫я┌я▀ NIS п╫п╣ п╬п╠я▐п╥п╟п╫я▀ п╥п╟п©я┐я│п╨п╟я┌я▄ я│п╣я─п╡п╣я─ NIS.
 
-Установите ypserv если вам нужен сервер NIS для вашей сети. Вам также
-надо будет установить пакеты yp-tools и ypbind на каждой машине,
-которая должна быть клиентом NIS.
+пёя│я┌п╟п╫п╬п╡п╦я┌п╣ ypserv п╣я│п╩п╦ п╡п╟п╪ п╫я┐п╤п╣п╫ я│п╣я─п╡п╣я─ NIS п╢п╩я▐ п╡п╟я┬п╣п╧ я│п╣я┌п╦. п▓п╟п╪ я┌п╟п╨п╤п╣
+п╫п╟п╢п╬ п╠я┐п╢п╣я┌ я┐я│я┌п╟п╫п╬п╡п╦я┌я▄ п©п╟п╨п╣я┌я▀ yp-tools п╦ ypbind п╫п╟ п╨п╟п╤п╢п╬п╧ п╪п╟я┬п╦п╫п╣,
+п╨п╬я┌п╬я─п╟я▐ п╢п╬п╩п╤п╫п╟ п╠я▀я┌я▄ п╨п╩п╦п╣п╫я┌п╬п╪ NIS.
 
-%description -l uk
-Network Information Service (NIS) - це система, яка нада╓ мережеву
-╕нформац╕ю (лог╕ни, парол╕, домашн╕ каталоги, групи ╕ т.╕.) вс╕м
-машинам у мереж╕. NIS може дозволити користувачам вх╕д на будь-як╕й
-машин╕ якщо на ц╕й машин╕ запущен╕ кл╕╓нтськ╕ програми NIS та пароль
-користувача записаний у базу даних парол╕в NIS. NIS ран╕ше був в╕домий
-як Sun Yellow Pages (YP).
+%description -l uk.UTF-8
+Network Information Service (NIS) - я├п╣ я│п╦я│я┌п╣п╪п╟, я▐п╨п╟ п╫п╟п╢п╟я■ п╪п╣я─п╣п╤п╣п╡я┐
+я√п╫я└п╬я─п╪п╟я├я√я▌ (п╩п╬пЁя√п╫п╦, п©п╟я─п╬п╩я√, п╢п╬п╪п╟я┬п╫я√ п╨п╟я┌п╟п╩п╬пЁп╦, пЁя─я┐п©п╦ я√ я┌.я√.) п╡я│я√п╪
+п╪п╟я┬п╦п╫п╟п╪ я┐ п╪п╣я─п╣п╤я√. NIS п╪п╬п╤п╣ п╢п╬п╥п╡п╬п╩п╦я┌п╦ п╨п╬я─п╦я│я┌я┐п╡п╟я┤п╟п╪ п╡я┘я√п╢ п╫п╟ п╠я┐п╢я▄-я▐п╨я√п╧
+п╪п╟я┬п╦п╫я√ я▐п╨я┴п╬ п╫п╟ я├я√п╧ п╪п╟я┬п╦п╫я√ п╥п╟п©я┐я┴п╣п╫я√ п╨п╩я√я■п╫я┌я│я▄п╨я√ п©я─п╬пЁя─п╟п╪п╦ NIS я┌п╟ п©п╟я─п╬п╩я▄
+п╨п╬я─п╦я│я┌я┐п╡п╟я┤п╟ п╥п╟п©п╦я│п╟п╫п╦п╧ я┐ п╠п╟п╥я┐ п╢п╟п╫п╦я┘ п©п╟я─п╬п╩я√п╡ NIS. NIS я─п╟п╫я√я┬п╣ п╠я┐п╡ п╡я√п╢п╬п╪п╦п╧
+я▐п╨ Sun Yellow Pages (YP).
 
-Цей пакет м╕стить сервер NIS, який повинен бути запущений у ваш╕й
-мереж╕. Кл╕╓нти NIS не повинн╕ запускати сервер NIS.
+п╕п╣п╧ п©п╟п╨п╣я┌ п╪я√я│я┌п╦я┌я▄ я│п╣я─п╡п╣я─ NIS, я▐п╨п╦п╧ п©п╬п╡п╦п╫п╣п╫ п╠я┐я┌п╦ п╥п╟п©я┐я┴п╣п╫п╦п╧ я┐ п╡п╟я┬я√п╧
+п╪п╣я─п╣п╤я√. п п╩я√я■п╫я┌п╦ NIS п╫п╣ п©п╬п╡п╦п╫п╫я√ п╥п╟п©я┐я│п╨п╟я┌п╦ я│п╣я─п╡п╣я─ NIS.
 
-Встанов╕ть ypserv якщо вам потр╕бен сервер NIS для вашо╖ мереж╕. Вам
-також треба буде встановити пакети yp-tools та ypbind на кожн╕й
-машин╕, яка повинна бути кл╕╓нтом NIS.
+п▓я│я┌п╟п╫п╬п╡я√я┌я▄ ypserv я▐п╨я┴п╬ п╡п╟п╪ п©п╬я┌я─я√п╠п╣п╫ я│п╣я─п╡п╣я─ NIS п╢п╩я▐ п╡п╟я┬п╬я≈ п╪п╣я─п╣п╤я√. п▓п╟п╪
+я┌п╟п╨п╬п╤ я┌я─п╣п╠п╟ п╠я┐п╢п╣ п╡я│я┌п╟п╫п╬п╡п╦я┌п╦ п©п╟п╨п╣я┌п╦ yp-tools я┌п╟ ypbind п╫п╟ п╨п╬п╤п╫я√п╧
+п╪п╟я┬п╦п╫я√, я▐п╨п╟ п©п╬п╡п╦п╫п╫п╟ п╠я┐я┌п╦ п╨п╩я√я■п╫я┌п╬п╪ NIS.
 
 %prep
 %setup -q
