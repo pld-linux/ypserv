@@ -1,11 +1,11 @@
 Summary:	The NIS (Network Information Service) server
-Summary(es.UTF-8):   Servidor NIS/YP
-Summary(ja.UTF-8):   NIS(ネットワーク情報サービス)サーバー
-Summary(pl.UTF-8):   Serwer NIS (Network Information Service)
-Summary(pt_BR.UTF-8):   Servidor NIS/YP
-Summary(ru.UTF-8):   Сервер NIS (Network Information Service)
-Summary(uk.UTF-8):   Сервер NIS (Network Information Service)
-Summary(zh_CN.UTF-8):   NIS(网络信息服务)服务器
+Summary(es.UTF-8):	Servidor NIS/YP
+Summary(ja.UTF-8):	NIS(ネットワーク情報サービス)サーバー
+Summary(pl.UTF-8):	Serwer NIS (Network Information Service)
+Summary(pt_BR.UTF-8):	Servidor NIS/YP
+Summary(ru.UTF-8):	Сервер NIS (Network Information Service)
+Summary(uk.UTF-8):	Сервер NIS (Network Information Service)
+Summary(zh_CN.UTF-8):	NIS(网络信息服务)服务器
 Name:		ypserv
 Version:	2.17
 Release:	4
