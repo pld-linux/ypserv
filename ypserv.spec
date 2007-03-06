@@ -1,3 +1,5 @@
+# TODO
+# - /usr/include/rpcsvc/ypxfrd.x should be in -devel package?
 Summary:	The NIS (Network Information Service) server
 Summary(es.UTF-8):	Servidor NIS/YP
 Summary(ja.UTF-8):	NIS(ネットワーク情報サービス)サーバー
