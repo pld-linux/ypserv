@@ -1,0 +1,2 @@
+- added using CVS keywords in %changelog (for automating them).
+  Based on RH spec file.
