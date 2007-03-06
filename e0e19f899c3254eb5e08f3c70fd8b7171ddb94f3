@@ -1,0 +1,2 @@
+- %build deletes config.cache so configure can correctly find awk and make
+- patches are changed to be compatible with FHS
