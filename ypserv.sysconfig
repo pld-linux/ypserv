@@ -1,0 +1,5 @@
+# Define nice level for ypserv daemon
+SERVICE_RUN_NICE_LEVEL="+0"
+
+# Port ypserv should listen on (default is portmap assigned)
+#YPSERV_PORT=
