@@ -18,6 +18,7 @@ Source0:	ftp://ftp.kernel.org/pub/linux/utils/net/NIS/%{name}-%{version}.tar.bz2
 Source1:	%{name}-%{name}.init
 Source2:	%{name}-yppasswdd.init
 Source3:	%{name}-ypxfrd.init
+Source4:	%{name}.sysconfig
 Patch0:		%{name}-ypMakefile.patch
 Patch1:		%{name}-path.patch
 Patch2:		%{name}-nfsnobody.patch
@@ -123,7 +124,7 @@ mv -f etc/README etc/README.etc
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
+install -d $RPM_BUILD_ROOT/etc/{rc.d/init.d,sysconfig}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
@@ -133,6 +134,8 @@ install etc/ypserv.conf $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/ypserv
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d/yppasswdd
 install %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/ypxfrd
+
+install %{SOURCE3} $RPM_BUILD_ROOT/etc/sysconfig/ypserv
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -172,6 +175,7 @@ fi
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_libdir}/yp
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ypserv.conf
+%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/ypserv
 %dir /var/yp
 %config(noreplace) %verify(not md5 mtime size) /var/yp/Makefile
 %attr(754,root,root) /etc/rc.d/init.d/*
