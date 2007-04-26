@@ -32,7 +32,7 @@ BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
 Requires:	glibc >= 2.2
 Requires:	portmap
-Requires:	rc-scripts
+Requires:	rc-scripts >= 0.4.1.5
 Obsoletes:	yppasswd
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
