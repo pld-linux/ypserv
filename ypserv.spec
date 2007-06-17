@@ -30,6 +30,7 @@ BuildRequires:	gdbm-devel
 BuildRequires:	libwrap-devel
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires(post,preun):	/sbin/chkconfig
+Requires:	FHS >= 2.3-18
 Requires:	glibc >= 2.2
 Requires:	portmap
 Requires:	rc-scripts >= 0.4.1.5
@@ -175,7 +176,6 @@ fi
 %attr(755,root,root) %{_libdir}/yp
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ypserv.conf
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/ypserv
-%dir /var/yp
 %config(noreplace) %verify(not md5 mtime size) /var/yp/Makefile
 %attr(754,root,root) /etc/rc.d/init.d/*
 %{_mandir}/man5/*
