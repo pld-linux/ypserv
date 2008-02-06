@@ -10,7 +10,7 @@ Summary(uk.UTF-8):	Сервер NIS (Network Information Service)
 Summary(zh_CN.UTF-8):	NIS(网络信息服务)服务器
 Name:		ypserv
 Version:	2.19
-Release:	3
+Release:	4
 License:	GPL
 Group:		Networking/Daemons
 Source0:	ftp://ftp.kernel.org/pub/linux/utils/net/NIS/%{name}-%{version}.tar.bz2
