@@ -10,7 +10,7 @@ Summary(uk.UTF-8):	Сервер NIS (Network Information Service)
 Summary(zh_CN.UTF-8):	NIS(网络信息服务)服务器
 Name:		ypserv
 Version:	2.19
-Release:	2
+Release:	3
 License:	GPL
 Group:		Networking/Daemons
 Source0:	ftp://ftp.kernel.org/pub/linux/utils/net/NIS/%{name}-%{version}.tar.bz2
@@ -149,9 +149,6 @@ rm -rf $RPM_BUILD_ROOT
 
 /sbin/chkconfig --add ypxfrd
 %service ypxfrd restart "YP map server"
-
-%triggerpostun -- ypserv <= ypserv-1.3.0-2
-/sbin/chkconfig --add ypserv
 
 %triggerpostun -- yppasswd
 /sbin/chkconfig --add yppasswdd
