@@ -1,4 +1,5 @@
 # TODO
+# - libxcrypt support? (or move to libxcrypt globally)
 # - /usr/include/rpcsvc/ypxfrd.x should be in -devel package?
 Summary:	The NIS (Network Information Service) server
 Summary(es.UTF-8):	Servidor NIS/YP
@@ -9,31 +10,40 @@ Summary(ru.UTF-8):	Сервер NIS (Network Information Service)
 Summary(uk.UTF-8):	Сервер NIS (Network Information Service)
 Summary(zh_CN.UTF-8):	NIS(网络信息服务)服务器
 Name:		ypserv
-Version:	2.31
-Release:	4
-License:	GPL
+Version:	4.1
+Release:	1
+License:	GPL v2
 Group:		Networking/Daemons
-Source0:	http://www.linux-nis.org/download/ypserv/%{name}-%{version}.tar.bz2
-# Source0-md5:	4537b8f0e917edca8f57b70b9cbc37f3
+#Source0Download: https://github.com/thkukuk/ypserv/releases
+Source0:	https://github.com/thkukuk/ypserv/releases/download/v%{version}/%{name}-%{version}.tar.xz
+# Source0-md5:	27df9000c34cb300e9b6425cd299cb2f
 Source1:	%{name}-%{name}.init
 Source2:	%{name}-yppasswdd.init
 Source3:	%{name}-ypxfrd.init
 Source4:	%{name}.sysconfig
 Patch0:		%{name}-ypMakefile.patch
-Patch1:		%{name}-path.patch
 Patch2:		%{name}-nfsnobody.patch
 Patch3:		%{name}-awk.patch
 URL:		http://www.linux-nis.org/
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake >= 1:1.7
+BuildRequires:	docbook-dtd43-xml
 BuildRequires:	gdbm-devel
-BuildRequires:	libwrap-devel
+BuildRequires:	libnsl-devel >= 1.0.4
+BuildRequires:	libtirpc-devel >= 1.0.1
+BuildRequires:	libxslt-progs
+BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.268
+BuildRequires:	systemd-devel >= 1:209
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
 Requires(post,preun):	/sbin/chkconfig
 Requires:	FHS >= 2.3-18
 Requires:	glibc >= 2.2
-Requires:	portmap
+Requires:	libnsl >= 1.0.4
+Requires:	libtirpc >= 1.0.1
 Requires:	rc-scripts >= 0.4.1.5
+Requires:	rpcbind
 Obsoletes:	yppasswd
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -107,17 +117,17 @@ Network Information Service (NIS) - це система, яка надає ме�
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 
-mv -f etc/README etc/README.etc
+%{__mv} etc/README etc/README.etc
 
 %build
 %configure \
 	--enable-check-root \
 	--enable-fqdn \
-	--enable-yppasswd
+	--enable-yppasswd \
+	--with-dbmliborder=gdbm
 %{__make}
 
 %install
@@ -166,12 +176,40 @@ fi
 %defattr(644,root,root,755)
 %doc README ChangeLog TODO NEWS
 %doc etc/ypserv.conf etc/securenets etc/README.etc
-%attr(755,root,root) %{_sbindir}/*
-%attr(755,root,root) %{_libdir}/yp
+%attr(755,root,root) %{_sbindir}/rpc.yppasswdd
+%attr(755,root,root) %{_sbindir}/rpc.ypxfrd
+%attr(755,root,root) %{_sbindir}/yppush
+%attr(755,root,root) %{_sbindir}/ypserv
+%dir %{_libdir}/yp
+%attr(755,root,root) %{_libdir}/yp/create_printcap
+%attr(755,root,root) %{_libdir}/yp/makedbm
+%attr(755,root,root) %{_libdir}/yp/match_printcap
+%attr(755,root,root) %{_libdir}/yp/mknetid
+%attr(755,root,root) %{_libdir}/yp/pwupdate
+%attr(755,root,root) %{_libdir}/yp/revnetgroup
+%attr(755,root,root) %{_libdir}/yp/yphelper
+%attr(755,root,root) %{_libdir}/yp/ypinit
+%attr(755,root,root) %{_libdir}/yp/ypxfr
+%attr(755,root,root) %{_libdir}/yp/ypxfr_*
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/ypserv.conf
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/ypserv
 %config(noreplace) %verify(not md5 mtime size) /var/yp/Makefile
-%attr(754,root,root) /etc/rc.d/init.d/*
-%{_mandir}/man5/*
-%{_mandir}/man8/*
+%attr(754,root,root) /etc/rc.d/init.d/yppasswdd
+%attr(754,root,root) /etc/rc.d/init.d/ypserv
+%attr(754,root,root) /etc/rc.d/init.d/ypxfrd
+%{_mandir}/man5/netgroup.5*
+%{_mandir}/man5/ypserv.conf.5*
+%{_mandir}/man8/makedbm.8*
+%{_mandir}/man8/mknetid.8*
+%{_mandir}/man8/pwupdate.8*
+%{_mandir}/man8/revnetgroup.8*
+%{_mandir}/man8/rpc.yppasswdd.8*
+%{_mandir}/man8/rpc.ypxfrd.8*
+%{_mandir}/man8/yphelper.8*
+%{_mandir}/man8/ypinit.8*
+%{_mandir}/man8/yppasswdd.8*
+%{_mandir}/man8/yppush.8*
+%{_mandir}/man8/ypserv.8*
+%{_mandir}/man8/ypxfr.8*
+%{_mandir}/man8/ypxfrd.8*
 %{_includedir}/rpcsvc/ypxfrd.x

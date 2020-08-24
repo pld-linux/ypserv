@@ -1,6 +1,6 @@
---- ypserv-2.5/scripts/ypMakefile.in~	Thu Sep 12 22:38:41 2002
-+++ ypserv-2.5/scripts/ypMakefile.in	Thu Sep 12 23:10:13 2002
-@@ -37,11 +37,11 @@
+--- ypserv-4.1/scripts/ypMakefile.in.orig	2019-03-12 15:50:51.000000000 +0100
++++ ypserv-4.1/scripts/ypMakefile.in	2020-08-23 18:20:41.080314280 +0200
+@@ -42,11 +42,11 @@
  
  # Should we merge the passwd file with the shadow file ?
  # MERGE_PASSWD=true|false
@@ -14,32 +14,32 @@
  
  # These are commands which this Makefile needs to properly rebuild the
  # NIS databases. Don't change these unless you have a good reason.
-@@ -92,6 +92,7 @@
+@@ -94,6 +94,7 @@
  TIMEZONE    = $(YPSRCDIR)/timezone
  LOCALE      = $(YPSRCDIR)/locale
  NETMASKS    = $(YPSRCDIR)/netmasks
 +OLDPASSWD   = $(YPSRCDIR)/security/opasswd
+ AUTO_MAPS   = auto.master auto.home auto.local
  
- YPSERVERS = $(YPDIR)/ypservers	# List of all NIS servers for a domain
- 
-@@ -105,7 +106,7 @@
+ YPSERVERS = $(YPDIR)/ypservers	# List of all NIS slave servers
+@@ -108,7 +109,7 @@
  # them out from this list.
  
  all:  passwd group hosts rpc services netid protocols netgrp mail \
 -	shadow publickey # networks ethers bootparams printcap \
-+	shadow opasswd #publickey # networks ethers bootparams printcap \
- 	# amd.home auto.master auto.home auto.local passwd.adjunct \
++	shadow opasswd # publickey networks ethers bootparams printcap \
+ 	# amd.home autofs passwd.adjunct \
  	# timezone locale netmasks
  
-@@ -142,6 +143,7 @@
+@@ -145,6 +146,7 @@
  timezone:      timezone.byname
  locale:                locale.byname
  netmasks:      netmasks.byaddr
 +opasswd:       opasswd.byname opasswd.byuid
+ autofs:     	$(AUTO_MAPS)
  
  ypservers: $(YPSERVERS) $(YPDIR)/Makefile
- 	@echo "Updating $@..."
-@@ -444,6 +446,22 @@
+@@ -450,6 +452,22 @@
  		}' | $(DBLOAD) -i $(AMD_HOME) -o $(YPMAPDIR)/$@ - $@
  	-@$(NOPUSH) || $(YPPUSH) -d $(DOMAIN) $@
  

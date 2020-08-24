@@ -1,7 +1,0 @@
---- ypserv-2.1/scripts/Makefile.in.fixit	Sat Nov 17 21:49:44 2001
-+++ ypserv-2.1/scripts/Makefile.in	Sat Nov 17 21:51:09 2001
-@@ -91,4 +91,4 @@
- EXTRA_DIST = $(addsuffix .in,$(MANS)) $(addsuffix .in,$(SCRIPTS))
--varypdir = /var/yp
-+varypdir = $(prefix)/../var/yp
- man_MANS = pwupdate.8 ypinit.8
